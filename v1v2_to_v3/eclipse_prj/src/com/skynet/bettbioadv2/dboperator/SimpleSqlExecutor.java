@@ -8,8 +8,15 @@ public class SimpleSqlExecutor extends BaseDbOperator{
 	protected String sqlImportResearchInstitute;
 	protected String sqlImportResearchGroup;
 	protected String sqlImportLabratory;
+	protected String sqlImportAdMachines;
 	
 
+	public String getSqlImportAdMachines() {
+		return sqlImportAdMachines;
+	}
+	public void setSqlImportAdMachines(String sqlImportAdMachines) {
+		this.sqlImportAdMachines = sqlImportAdMachines;
+	}
 	public String getSqlImportLabratory() {
 		return sqlImportLabratory;
 	}
@@ -43,17 +50,21 @@ public class SimpleSqlExecutor extends BaseDbOperator{
 
 
 	public void createPureV3Data() {
+		int i=0;
+		System.out.print("Initialize DB...");
 		for(String sql : step1_sql_list){
-			executePlainSql(sql);
+			i += executeUpdateSql(null, sql);
 		}
-		
+		System.out.println(" " + i + " rows affected.");
 	}
 	public void importSecUsers() {
-		executePlainSql(getSqlImportSecUsers());
+		executeUpdateSql("Migrate SecUser", getSqlImportSecUsers());
 	}
 	public void importResearchOrgnizations() {
-		executePlainSql(sqlImportResearchInstitute);
-		executePlainSql(sqlImportResearchGroup);
+		executeUpdateSql("Migrate Research Institute", sqlImportResearchInstitute);
+		executeUpdateSql("Migrate Research Group", sqlImportResearchGroup);
+		executeUpdateSql("Migrate Laboratory", sqlImportLabratory);
+		executeUpdateSql("Migrate AD machines", sqlImportAdMachines);
 	}
 
 }

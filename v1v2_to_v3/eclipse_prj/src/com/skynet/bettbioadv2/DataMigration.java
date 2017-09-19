@@ -1,5 +1,6 @@
 package com.skynet.bettbioadv2;
 
+import java.util.Date;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -33,7 +34,12 @@ public class DataMigration {
         ApplicationContext context = new FileSystemXmlApplicationContext(configFileName);
         
         DataMigration dm = (DataMigration) context.getBean("data_migration_executor");
+        Date tStart = new Date();
         dm.startWork();
+        Date tEnd = new Date();
+        System.out.println("\nMigration start from: " + tStart);
+        System.out.println("              end at: " + tEnd);
+        System.out.println("          Total used: " + (tEnd.getTime() - tStart.getTime())/1000.0 + " Seconds");
 	}
 
 	private void startWork() {
