@@ -30,6 +30,8 @@
 		<value><![CDATA[insert into bettbio_ad_v2.operation_role_in_group_data(id,operation_role,operation_role_group,version) value('ORIG000004','OR000001','ORG000004',0)]]></value>
 		<value><![CDATA[insert into bettbio_ad_v2.operation_role_in_group_data(id,operation_role,operation_role_group,version) value('ORIG000005','OR000002','ORG000002',0)]]></value>
 		<value><![CDATA[insert into bettbio_ad_v2.operation_role_in_group_data(id,operation_role,operation_role_group,version) value('ORIG000006','OR000003','ORG000003',0)]]></value>
+		<value><![CDATA[insert into bettbio_ad_v2.product_class_data(id,name,description,belongs_to,version) values('PC000001', '初始未确定', '这个产品类型用于初始设定广告内容的相关产品类型，即为‘还不确定具体的产品类型‘的意思', 'BC000001', 1)]]></value>
+
 	</util:list>
 	<bean id="dbOperator" class="com.skynet.bettbioadv2.dboperator.SimpleSqlExecutor">
 		<property name="dataSource" ref="dataSource"/>
@@ -58,6 +60,10 @@
 					where exists (select id from bettbio_ad_v2.research_group_data where id=bettbio_ad.laboratory_data.belongs_to)]]>
 			</value>
 		</property>
+		<property name="sqlImportLabratoryStep2">
+			<value><![CDATA[insert into bettbio_ad_v2.product_class_usage_data(id, laboratory,product_class,annual_consumption,version) values('PCU000001', 'L000001', 'PC000001', '365', 1)]]>
+			</value>
+		</property>
 		<property name="sqlImportAdMachines">
 			<value><![CDATA[insert into bettbio_ad_v2.refrigerator_data(id,title,laboratory,
 			        refrigerator_manufacturer,refrigerator_model,refrigerator_serial_number,refrigerator_capacity,refrigerator_up_time,
@@ -67,11 +73,22 @@
 			           refrigerator_manufacturer,refrigerator_model,refrigerator_serial_number,refrigerator_capacity,refrigerator_up_time,
 			           ad_machine_model,ad_machine_serial_number,ad_machine_up_time,rfid_reader_id,longitude,latitude,belongs_to,last_report_time, 
 			           'unknown',NULL,NULL
-				from bettbio_ad.refrigerator_data;]]>
+				from bettbio_ad.refrigerator_data]]>
 			</value>
 		</property>
-		
-			</bean>
+		<property name="sqlImportCustomerCompany">
+			<value><![CDATA[insert into bettbio_ad_v2.customer_company_data (id,name,address,email,phone,home_page,company_profile,belongs_to,version) 
+    			select id,name,address,email,phone,home_page,company_profile,belongs_to,version from bettbio_ad.customer_company_data
+        			where exists (select id from bettbio_ad_v2.bettbio_company_data where id=bettbio_ad.customer_company_data.belongs_to)]]>
+			</value>
+		</property>
+			<property name="sqlImportApks">
+			<value><![CDATA[insert into bettbio_ad_v2.ad_machine_apk_data (id,release_build,release_date,download_link,belongs_to,version) 
+    			select id,release_build,release_date,download_link,belongs_to,version from bettbio_ad.ad_machine_apk_data
+       				where exists (select id from bettbio_ad_v2.bettbio_company_data where id=bettbio_ad.ad_machine_apk_data.belongs_to)]]>
+			</value>
+		</property>
+	</bean>
 	
 </beans>
 

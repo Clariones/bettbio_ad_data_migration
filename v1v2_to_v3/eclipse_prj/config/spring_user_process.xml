@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:task="http://www.springframework.org/schema/task" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
+   http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+   http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
+   http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.1.xsd
+   http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
+   http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.1.xsd
+   http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.1.xsd">
+
+	<bean id="userOperator" class="com.skynet.bettbioadv2.dboperator.SecUserOperator">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="adminUserId" value="SU000001"/>
+		<property name="adminUserAppSql">
+			<value><![CDATA[insert into bettbio_ad_v2.user_app_data(id, title, sec_user, app_icon,full_access,permission,object_type,object_id,location,version)
+				values(?,?,?,?,1,'MXWR',?,?,?,1)]]></value>
+		</property>
+		<property name="adminUserAccessSql">
+			<value><![CDATA[insert into bettbio_ad_v2.object_access_data(id,display_name,object_type,app,version,list1,list2,list3,list4,list5,list6,list7,list8,list9) 
+				value(?,?,?,?,1,?,?,?,?,?,?,?,?,?)]]></value>
+		</property>
+		<property name="beforeSetupAdminSqls">
+			<list>
+				<value><![CDATA[insert into bettbio_ad_v2.admin_data_view_data(id,belongs_to,title,data_view_type,version) 
+					values('ADV000001','UD000001','客户图像广告管理','customerMarketingCampainAdmin',1)]]>
+				</value>
+				<value><![CDATA[insert into bettbio_ad_v2.refrigerator_in_organization_list_data(id, title,belongs_to,research_institute_id,research_group_id,laboratory_id,version)
+					values('RIOL000001','所有冰箱广告机状态','BC000001','any','any','any',1)]]>
+				</value>
+			</list>
+		</property>
+		<property name="adminUserAppDataList">
+			<list>
+				<value>UA000001,主内容仓库,file-image-o,ContentRepository,CR000001</value>
+				<value>UA000002,客户管理,group,BettbioCompany,BC000001</value>
+				<value>UA000003,科研机构,bank,BettbioCompany,BC000001</value>
+				<value>UA000004,APK管理,android,BettbioCompany,BC000001</value>
+				<value>UA000005,模拟实验室,flask,Laboratory,L000001</value>
+				<value>UA000006,所有广告机,youtube-play,RefrigeratorInOrganizationList,RIOL000001</value>
+				<value>UA000007,用户账号,key,UserDomain,UD000001</value>
+				<value>UA000008,权限管理,unlock-alt,BettbioCompany,BC000001</value>
+				<value>UA000009,活动管理,bell,BettbioCompany,BC000001</value>
+				<value>UA000010,用户广告审批,user-secret,AdminDataView,ADV000001</value>
+				<value>UA000011,所有内容仓库,file-image-o,BettbioCompany,BC000001</value>
+			</list>
+		</property>
+		<property name="adminUserObjectAccessList">
+			<list>
+				<value>OA000001,客户管理访问控制,BettbioCompany,UA000002,customerCompanyList</value>
+				<value>OA000002,科研机构访问控制,BettbioCompany,UA000003,researchInstituteList</value>
+				<value>OA000003,APK访问控制,BettbioCompany,UA000004,adMachineApkList</value>
+				<value>OA000004,权限管理访问控制,BettbioCompany,UA000008,operationRoleList,operationRoleGroupList</value>
+				<value>OA000005,活动管理访问控制,BettbioCompany,UA000009,adEventList</value>
+				<value>OA000006,内容仓库访问控制,BettbioCompany,UA000011,contentRepositoryList</value>
+			</list>
+		</property>
+		<property name="afterSetupAdminSqls">
+			<list>
+				<value><![CDATA[insert into bettbio_ad_v2.user_role_group_data(id,sec_user,operation_role_group,customer_company,version)
+					 values('URG000001','SU000001','ORG000001','CC000001',1)]]>
+				</value>
+			</list>
+		</property>
+		<property name="customerUserAppSql">
+			<value><![CDATA[insert into bettbio_ad_v2.user_app_data(id, title, sec_user, app_icon,full_access,permission,object_type,object_id,location,version)
+				values(?,'广告发布',?,'file-image-o',1,'MXWR','CustomerCompanyDataView',?,'0001',1)]]>
+			</value>
+		</property>
+		<property name="customerUserDataViewSql">
+			<value><![CDATA[insert into bettbio_ad_v2.customer_company_data_view_data(id,belongs_to,title,data_view_type,arg1,arg2,arg3,arg4,arg5,arg6,version) 
+				values(?,'UD000001','广告发布','marketingCampainInCustomerCompany',?,'null','null','null','null','null',1)]]>
+			</value>
+		</property>
+	</bean>
+	
+</beans>
+
+

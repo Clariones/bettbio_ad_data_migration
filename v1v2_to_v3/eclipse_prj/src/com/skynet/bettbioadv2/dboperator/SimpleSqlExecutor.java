@@ -9,8 +9,29 @@ public class SimpleSqlExecutor extends BaseDbOperator{
 	protected String sqlImportResearchGroup;
 	protected String sqlImportLabratory;
 	protected String sqlImportAdMachines;
-	
+	protected String sqlImportCustomerCompany;
+	protected String sqlImportApks;
+	protected String sqlImportLabratoryStep2;
 
+	
+	public String getSqlImportLabratoryStep2() {
+		return sqlImportLabratoryStep2;
+	}
+	public void setSqlImportLabratoryStep2(String sqlImportLabratoryStep2) {
+		this.sqlImportLabratoryStep2 = sqlImportLabratoryStep2;
+	}
+	public String getSqlImportApks() {
+		return sqlImportApks;
+	}
+	public void setSqlImportApks(String sqlImportApks) {
+		this.sqlImportApks = sqlImportApks;
+	}
+	public String getSqlImportCustomerCompany() {
+		return sqlImportCustomerCompany;
+	}
+	public void setSqlImportCustomerCompany(String sqlImportCustomerCompany) {
+		this.sqlImportCustomerCompany = sqlImportCustomerCompany;
+	}
 	public String getSqlImportAdMachines() {
 		return sqlImportAdMachines;
 	}
@@ -65,6 +86,14 @@ public class SimpleSqlExecutor extends BaseDbOperator{
 		executeUpdateSql("Migrate Research Group", sqlImportResearchGroup);
 		executeUpdateSql("Migrate Laboratory", sqlImportLabratory);
 		executeUpdateSql("Migrate AD machines", sqlImportAdMachines);
+		executeUpdateSql("Migrate AD machines step2", sqlImportLabratoryStep2);
 	}
-
+	
+	public void importCustomerCompany() {
+		executeUpdateSql("Migrate Customer Company", sqlImportCustomerCompany);
+	}
+	public void importApks() {
+		executeUpdateSql("Migrate AD machine APKs", sqlImportApks);
+	}
+	
 }

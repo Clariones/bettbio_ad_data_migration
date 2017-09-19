@@ -8,11 +8,31 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 import com.skynet.bettbioadv2.dboperator.BaseDbOperator;
+import com.skynet.bettbioadv2.dboperator.ContentOperator;
+import com.skynet.bettbioadv2.dboperator.SecUserOperator;
 import com.skynet.bettbioadv2.dboperator.SimpleSqlExecutor;
 
 public class DataMigration {
 	protected SimpleSqlExecutor dbOperator;
+	protected SecUserOperator userOperator;
+	protected ContentOperator contentOperator;
 	
+	public ContentOperator getContentOperator() {
+		return contentOperator;
+	}
+
+	public void setContentOperator(ContentOperator contentOperator) {
+		this.contentOperator = contentOperator;
+	}
+
+	public SecUserOperator getUserOperator() {
+		return userOperator;
+	}
+
+	public void setUserOperator(SecUserOperator userOperator) {
+		this.userOperator = userOperator;
+	}
+
 	public BaseDbOperator getDbOperator() {
 		return dbOperator;
 	}
@@ -46,6 +66,12 @@ public class DataMigration {
 		dbOperator.createPureV3Data();
 		dbOperator.importSecUsers();
 		dbOperator.importResearchOrgnizations();
+		dbOperator.importCustomerCompany();
+		dbOperator.importApks();
+		
+		userOperator.setupUsersView();
+		
+		contentOperator.migrateContents();
 	}
 
 }

@@ -26,9 +26,13 @@
 	</bean>
 	
 	<import resource="spring_dbconfig.xml" />
+	<import resource="spring_user_process.xml"/>
+	<import resource="spring_content_process.xml"/>
 	
 	<bean id="data_migration_executor" class="com.skynet.bettbioadv2.DataMigration">
 		<property name="dbOperator" ref="dbOperator"/>
+		<property name="userOperator" ref="userOperator"/>
+		<property name="contentOperator" ref="contentOperator"/>
 	</bean>
 	
 </beans>

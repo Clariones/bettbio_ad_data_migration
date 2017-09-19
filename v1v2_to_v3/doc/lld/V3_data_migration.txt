@@ -77,9 +77,7 @@ CREATE VIEW ad_machine_full_info_view AS
 	insert into operation_role_in_group_data(id,operation_role,operation_role_group,version) value('ORIG000005','OR000002','ORG000002',0);
 	insert into operation_role_in_group_data(id,operation_role,operation_role_group,version) value('ORIG000006','OR000003','ORG000003',0);
 
-	# 导入所有有效的SecUser
-	insert into bettbio_ad_v2.sec_user_data(id, login,mobile,email,pwd,last_login,domain,version) select id,login,mobile,email,pwd,last_login,domain,version from bettbio_ad.sec_user_data where domain='UD000001';
-	# 导入所有的研究机构
+	# 开始导入数据，参见代码中的SQL配置。
 	
 
 	
