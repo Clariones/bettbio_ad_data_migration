@@ -1,0 +1,85 @@
+V1/2的数据迁移到V3主要是以下几个大步骤：
+1. 准备一个V3的‘纯净启动数据’
+2. 将需要迁移的V1/2备份的数据拷贝到数据迁移的目录中去，然后导入到数据库中。
+3. 执行一个工具软件，完成V3的数据迁移。 这个工具是一次性的，对其他版本间的数据迁移无效。
+
+一 准备V3的纯净启动数据
+	（先备份当前数据库 mysqldump -uroot -p0254891276 bettbio_ad_v2 > bettbio_ad_v2_initial_dump.sql）
+	下面的存储过程可以查看表中的实际数据
+===========================================================
+DELIMITER $$
+DROP PROCEDURE IF EXISTS showAllTableRows $$
+CREATE PROCEDURE showAllTableRows()
+begin
+    DECLARE bDone INT;
+    DECLARE tName VARCHAR(100);
+    DECLARE curs CURSOR FOR 
+           select table_name from information_schema.tables where table_schema='bettbio_ad_v2';
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET bDone = 1;
+    
+    DROP TEMPORARY TABLE IF EXISTS tblResults;
+    CREATE TEMPORARY TABLE IF NOT EXISTS tblResults  (
+        name varchar(200),
+        count int
+    );
+
+
+    OPEN curs;
+    SET bDone = 0;
+    REPEAT
+        FETCH curs INTO tName;
+        select concat('insert into tblResults(name,count) select ', QUOTE(tName), 'as name, count(*) from bettbio_ad_v2.', tName) into @SQLSTR;
+        PREPARE s FROM @SQLSTR; EXECUTE s;
+    UNTIL bDone END REPEAT;
+
+    CLOSE curs;
+
+    select * from tblResults;
+
+end $$
+DELIMITER ;
+
+call showAllTableRows;
+===========================================================
+创建view：
+CREATE VIEW ad_machine_full_info_view AS
+    select R.id AS r_id,L.id AS l_id,RG.id AS rg_id,RI.id AS ri_id
+    from  refrigerator_data R left join laboratory_data L on R.laboratory = L.id
+        left join research_group_data RG on L.belongs_to = RG.id
+        left join research_institute_data RI on RG.belongs_to = RI.id;
+===========================================================
+
+	1. 删除所有user domain。
+	delete from user_domain_data;
+	2. 删除所有bettbioCOmpany
+	delete from bettbio_company_data;
+
+	3. 运行脚本，创建初始化数据
+	# 创建user domain
+	insert into user_domain_data (id, name, version) values('UD000001','用户区域',0);
+	# 创建百图公司
+	insert into bettbio_company_data(id,name,address,email,version) values('BC000001','百图广告部','中国 上海杨浦区国定东路200号 1-15012401','service@bettbio.com',0);
+	# 创建角色数据
+	insert into operation_role_data(id,name,description,belongs_to,version) values('OR000001','approver','负责审核客户广告内容的百图员工','BC000001',0);
+	insert into operation_role_data(id,name,description,belongs_to,version) values('OR000002','customer_editor','客户公司负责广告内容编辑的人','BC000001',0);
+	insert into operation_role_data(id,name,description,belongs_to,version) values('OR000003','internal_editor','负责内部广告内容编辑的百图员工','BC000001',0);
+	# 创建角色组
+	insert into operation_role_group_data(id,name,description,belongs_to,version) value('ORG000001','super_admin','具备所有权限的角色组','BC000001',0);
+	insert into operation_role_group_data(id,name,description,belongs_to,version) value('ORG000002','customer_ad_editor_only','仅能够编辑客户广告的组','BC000001',0);
+	insert into operation_role_group_data(id,name,description,belongs_to,version) value('ORG000003','intra_ad_editor_only','仅能够编辑内部广告的组','BC000001',0);
+	insert into operation_role_group_data(id,name,description,belongs_to,version) value('ORG000004','approver_only','仅能够审核客户广告的组','BC000001',0);
+	# 创建角色组内容
+	insert into operation_role_in_group_data(id,operation_role,operation_role_group,version) value('ORIG000001','OR000001','ORG000001',0);
+	insert into operation_role_in_group_data(id,operation_role,operation_role_group,version) value('ORIG000002','OR000002','ORG000001',0);
+	insert into operation_role_in_group_data(id,operation_role,operation_role_group,version) value('ORIG000003','OR000003','ORG000001',0);
+
+	insert into operation_role_in_group_data(id,operation_role,operation_role_group,version) value('ORIG000004','OR000001','ORG000004',0);
+	insert into operation_role_in_group_data(id,operation_role,operation_role_group,version) value('ORIG000005','OR000002','ORG000002',0);
+	insert into operation_role_in_group_data(id,operation_role,operation_role_group,version) value('ORIG000006','OR000003','ORG000003',0);
+
+	# 导入所有有效的SecUser
+	insert into bettbio_ad_v2.sec_user_data(id, login,mobile,email,pwd,last_login,domain,version) select id,login,mobile,email,pwd,last_login,domain,version from bettbio_ad.sec_user_data where domain='UD000001';
+	# 导入所有的研究机构
+	
+
+	

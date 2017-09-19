@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:task="http://www.springframework.org/schema/task" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
+   http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+   http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
+   http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.1.xsd
+   http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
+   http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.1.xsd
+   http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.1.xsd">
+
+	<util:list id="sql_list_for_create_pure_v3_data">
+		<value><![CDATA[delete from bettbio_ad_v2.user_domain_data]]></value>
+		<value><![CDATA[delete from bettbio_ad_v2.bettbio_company_data]]></value>
+		<value><![CDATA[insert into bettbio_ad_v2.user_domain_data (id, name, version) values('UD000001','用户区域',0)]]></value>
+		<value><![CDATA[insert into bettbio_ad_v2.bettbio_company_data(id,name,address,email,version) values('BC000001','百图广告部','中国 上海杨浦区国定东路200号 1-15012401','service@bettbio.com',0)]]></value>
+		<value><![CDATA[insert into bettbio_ad_v2.operation_role_data(id,name,description,belongs_to,version) values('OR000001','approver','负责审核客户广告内容的百图员工','BC000001',0)]]></value>
+		<value><![CDATA[insert into bettbio_ad_v2.operation_role_data(id,name,description,belongs_to,version) values('OR000002','customer_editor','客户公司负责广告内容编辑的人','BC000001',0)]]></value>
+		<value><![CDATA[insert into bettbio_ad_v2.operation_role_data(id,name,description,belongs_to,version) values('OR000003','internal_editor','负责内部广告内容编辑的百图员工','BC000001',0)]]></value>
+		<value><![CDATA[insert into bettbio_ad_v2.operation_role_group_data(id,name,description,belongs_to,version) value('ORG000001','super_admin','具备所有权限的角色组','BC000001',0)]]></value>
+		<value><![CDATA[insert into bettbio_ad_v2.operation_role_group_data(id,name,description,belongs_to,version) value('ORG000002','customer_ad_editor_only','仅能够编辑客户广告的组','BC000001',0)]]></value>
+		<value><![CDATA[insert into bettbio_ad_v2.operation_role_group_data(id,name,description,belongs_to,version) value('ORG000003','intra_ad_editor_only','仅能够编辑内部广告的组','BC000001',0)]]></value>
+		<value><![CDATA[insert into bettbio_ad_v2.operation_role_group_data(id,name,description,belongs_to,version) value('ORG000004','approver_only','仅能够审核客户广告的组','BC000001',0)]]></value>
+		<value><![CDATA[insert into bettbio_ad_v2.operation_role_in_group_data(id,operation_role,operation_role_group,version) value('ORIG000001','OR000001','ORG000001',0)]]></value>
+		<value><![CDATA[insert into bettbio_ad_v2.operation_role_in_group_data(id,operation_role,operation_role_group,version) value('ORIG000002','OR000002','ORG000001',0)]]></value>
+		<value><![CDATA[insert into bettbio_ad_v2.operation_role_in_group_data(id,operation_role,operation_role_group,version) value('ORIG000003','OR000003','ORG000001',0)]]></value>
+		<value><![CDATA[insert into bettbio_ad_v2.operation_role_in_group_data(id,operation_role,operation_role_group,version) value('ORIG000004','OR000001','ORG000004',0)]]></value>
+		<value><![CDATA[insert into bettbio_ad_v2.operation_role_in_group_data(id,operation_role,operation_role_group,version) value('ORIG000005','OR000002','ORG000002',0)]]></value>
+		<value><![CDATA[insert into bettbio_ad_v2.operation_role_in_group_data(id,operation_role,operation_role_group,version) value('ORIG000006','OR000003','ORG000003',0)]]></value>
+	</util:list>
+	<bean id="dbOperator" class="com.skynet.bettbioadv2.dboperator.SimpleSqlExecutor">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="step1_sql_list" ref="sql_list_for_create_pure_v3_data"/>
+		<property name="sqlImportSecUsers">
+			<value><![CDATA[insert into bettbio_ad_v2.sec_user_data(id, login,mobile,email,pwd,last_login,domain,version) 
+				select id,login,mobile,email,pwd,last_login,domain,version from bettbio_ad.sec_user_data 
+				where exists(select id from bettbio_ad_v2.user_domain_data where id=bettbio_ad.sec_user_data.domain)]]>
+			</value>
+		</property>
+		<property name="sqlImportResearchInstitute">
+			<value><![CDATA[insert into bettbio_ad_v2.research_institute_data(id,name,address,post_code,description,belongs_to,version)
+				select id,name,address,post_code,description,belongs_to,version from bettbio_ad.research_institute_data 
+				where exists(select id from bettbio_ad_v2.bettbio_company_data where id=bettbio_ad.research_institute_data.belongs_to)]]>
+			</value>
+		</property>
+		<property name="sqlImportResearchGroup">
+			<value><![CDATA[insert into bettbio_ad_v2.research_group_data(id,name,research_area,belongs_to,version) 
+				select id,name,research_area,belongs_to,version from bettbio_ad.research_group_data 
+					where exists (select id  from bettbio_ad_v2.research_institute_data where id = bettbio_ad.research_group_data.belongs_to)]]>
+			</value>
+		</property>
+		<property name="sqlImportLabratory">
+			<value><![CDATA[insert into bettbio_ad_v2.laboratory_data(id,name,room_number,belongs_to,version) 
+				select id,name,room_number,belongs_to,version from bettbio_ad.laboratory_data 
+					where exists (select id from bettbio_ad_v2.research_group_data where id=bettbio_ad.laboratory_data.belongs_to)]]>
+			</value>
+		</property>
+	</bean>
+	
+</beans>
+
+
