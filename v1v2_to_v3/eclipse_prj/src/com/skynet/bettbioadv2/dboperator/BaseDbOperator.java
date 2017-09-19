@@ -43,7 +43,7 @@ public abstract class BaseDbOperator {
 		}
 		return n;
 	}
-	protected void executeUpdateSql(String sql, List<String> params) {
+	protected void executeUpdateSql(String sql, List<? extends Object> params) {
 		Object[] paramArray = params.toArray();
 		getJdbcTemplateObject().update(sql, paramArray);
 		

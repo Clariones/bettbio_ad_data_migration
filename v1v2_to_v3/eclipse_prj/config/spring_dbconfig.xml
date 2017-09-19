@@ -82,7 +82,7 @@
         			where exists (select id from bettbio_ad_v2.bettbio_company_data where id=bettbio_ad.customer_company_data.belongs_to)]]>
 			</value>
 		</property>
-			<property name="sqlImportApks">
+		<property name="sqlImportApks">
 			<value><![CDATA[insert into bettbio_ad_v2.ad_machine_apk_data (id,release_build,release_date,download_link,belongs_to,version) 
     			select id,release_build,release_date,download_link,belongs_to,version from bettbio_ad.ad_machine_apk_data
        				where exists (select id from bettbio_ad_v2.bettbio_company_data where id=bettbio_ad.ad_machine_apk_data.belongs_to)]]>
