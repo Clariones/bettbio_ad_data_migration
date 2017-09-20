@@ -55,4 +55,13 @@ public abstract class BaseDbOperator {
 		return getJdbcTemplateObject().queryForObject(sql, null, requiredType);
 	}
 	
+	public <T> List<T> queryObjectList(String sql, List<Object> params, Class<T> requiredType) {
+		
+		Object[] args = null;
+		if (params != null){
+			args = params.toArray();
+		}
+		return getJdbcTemplateObject().queryForList(sql, args, requiredType);
+	}
+	
 }

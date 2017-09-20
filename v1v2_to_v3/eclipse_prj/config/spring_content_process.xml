@@ -14,6 +14,7 @@
 
 	<bean id="contentOperator" class="com.skynet.bettbioadv2.dboperator.ContentOperator">
 		<property name="dataSource" ref="dataSource"/>
+		<property name="adminUserId" value="SU000001"/>
 		<property name="notCustomerCompanyId">
 			<set>
 				<value>CC000001</value>

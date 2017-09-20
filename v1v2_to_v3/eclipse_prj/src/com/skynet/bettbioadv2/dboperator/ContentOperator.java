@@ -19,6 +19,16 @@ public class ContentOperator extends BaseDbOperator {
 	protected String rootBettbioCompanyId;
 	protected String sqlCreateIntraAd;
 	protected String sqlCreateCmcAd;
+	protected String adminUserId;
+	
+
+	public String getAdminUserId() {
+		return adminUserId;
+	}
+
+	public void setAdminUserId(String adminUserId) {
+		this.adminUserId = adminUserId;
+	}
 
 	protected Map<String, String> playListAndPlan;
 	
@@ -60,6 +70,8 @@ public class ContentOperator extends BaseDbOperator {
 	private List<Map<String, Object>> allPlayList;
 	private TableIDUtils playPlanIdHelper;
 	private TableIDUtils aippIdHelper;
+	private TableIDUtils cmcLogIdHelper;
+	private TableIDUtils cmcAdmachineIdHelper;
 
 	public void migrateContents() {
 		migrateContentRepository();
@@ -97,7 +109,55 @@ public class ContentOperator extends BaseDbOperator {
 		createPlayPlans();
 		createAdInPlayPlans();
 		
-		// TODO: create CMC AD, and required ad machines
+		if (allPlayList == null || allPlayList.isEmpty()){
+			return;
+		}
+		
+		cmcAdmachineIdHelper = new TableIDUtils(this, "customer_required_ad_machine_data", "CRAM%06d");
+		cmcAdmachineIdHelper.reloadMaxId();
+		for(Map<String, Object> playList : allPlayList){
+			migrateOnePlayList(playList);
+		}
+	}
+
+	/**算法说明：
+	 * 1. 首先，找出广告列表的所有广告和关联的广告机. 没有就什么都不用做了。
+	 * 2. 然后过滤掉内部广告
+	 * 
+	 * @param playList
+	 */
+	protected final static String sqlQueryAllAdMachineForPlayList = "select refrigerator from bettbio_ad.refrigerator_play_list_data where play_list=?";
+	protected final static String sqlQueryAllAdPageForPlayList = "select ad_page from bettbio_ad.ad_in_page_list_data where play_list=?";
+	protected final static String sqlCreateCmcRequiredAdMachine = "insert into bettbio_ad_v2.customer_required_ad_machine_data(id,belongs_to,refrigerator,start_time,end_time,last_update_time,status,version) values(?,?,?,'00:00:00','23:59:59',now(),'confirmed',1)";
+	private void migrateOnePlayList(Map<String, Object> playList) {
+		List<Object> params = new ArrayList<Object>();
+		String playListId = (String) playList.get("id");
+		params.add(playListId);
+		List<String> adMachineList = queryObjectList(sqlQueryAllAdMachineForPlayList, params, String.class);
+		List<String> adPageList = queryObjectList(sqlQueryAllAdPageForPlayList, params, String.class);
+		
+		if (adMachineList == null || adMachineList.isEmpty() || adPageList == null || adPageList.isEmpty()){
+			return;
+		}
+		Iterator<String> it = adPageList.iterator();
+		while(it.hasNext()){
+			String adPageOldId = it.next();
+			AdContent adPage = findAdContentByOldId(adPageOldId);
+			if (adPage == null || adPage.getAdType().equals(INTRA_IMAGE)){
+				it.remove();
+				continue;
+			}
+			
+			for(String adMachineId : adMachineList){
+				params = new ArrayList<Object>();
+				params.add(cmcAdmachineIdHelper.getNextId());
+				params.add(adPage.getNewId());
+				params.add(adMachineId);
+				
+				System.out.printf("Create CustomerRequiredAdmachine %s, bind %s to %s\n", params.get(0),params.get(2),params.get(1));
+				executeUpdateSql(sqlCreateCmcRequiredAdMachine, params);
+			}
+		}
 	}
 
 	protected static final String sqlLoadOldAdinPlayList = "select id,sequence_number,ad_page from bettbio_ad.ad_in_page_list_data where play_list=?";
@@ -172,8 +232,10 @@ public class ContentOperator extends BaseDbOperator {
 		Iterator<AdContent> it = allOldAdContents.iterator();
 		intraIdHelper = new TableIDUtils(this, "intra_ad_page_data", "IAP%06d");
 		cmcIdHelper = new TableIDUtils(this, "customer_marketing_campaign_data", "CMC%06d");
+		cmcLogIdHelper = new TableIDUtils(this, "customer_ad_approval_log_data", "CAAL%06d");
 		intraIdHelper.reloadMaxId();
 		cmcIdHelper.reloadMaxId();
+		cmcLogIdHelper.reloadMaxId();
 		while (it.hasNext()) {
 			AdContent adContent = it.next();
 			// if
@@ -192,6 +254,7 @@ public class ContentOperator extends BaseDbOperator {
 		}
 	}
 
+	protected final static String sqlCreateCmcLog = "insert into bettbio_ad_v2.customer_ad_approval_log_data(id,customer_marketing_campaign,action_operator,action_type,action_message,action_time,version) values(?,?,?,'create_draft',?,now(),1)";
 	private void createNewCmcAd(AdContent adContent) {
 		adContent.setAdType("cmc_image");
 		adContent.setNewId(cmcIdHelper.getNextId());
@@ -203,7 +266,14 @@ public class ContentOperator extends BaseDbOperator {
 		params.add(adContent.getBelongsTo());
 		params.add(adContent.getCompanyId());
 		this.executeUpdateSql(sqlCreateCmcAd, params);
-		System.out.println("Migrate " + adContent.getOldId() + " as " + adContent.getNewId());
+		System.out.println("Migrate " + adContent.getOldId() + " as customer_marketing_compaign " + adContent.getNewId());
+		
+		params = new ArrayList<Object>();
+		params.add(cmcLogIdHelper.getNextId());
+		params.add(adContent.getNewId());
+		params.add(getAdminUserId());
+		params.add("从旧版本的广告"+adContent.getOldId()+"迁移到新版本");
+		executeUpdateSql(sqlCreateCmcLog, params);
 	}
 
 	private void createNewIntraImageAd(AdContent adContent) {
@@ -216,7 +286,7 @@ public class ContentOperator extends BaseDbOperator {
 		params.add(adContent.getImageUri());
 		params.add(adContent.getBelongsTo());
 		this.executeUpdateSql(sqlCreateIntraAd, params);
-		System.out.println("Migrate " + adContent.getOldId() + " as " + adContent.getNewId());
+		System.out.println("Migrate " + adContent.getOldId() + " as intra_image_ad " + adContent.getNewId());
 	}
 
 	private void loadAllAdContents() {

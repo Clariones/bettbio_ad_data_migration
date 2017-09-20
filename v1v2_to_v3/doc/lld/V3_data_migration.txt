@@ -43,7 +43,7 @@ call showAllTableRows;
 ===========================================================
 创建view：
 CREATE VIEW ad_machine_full_info_view AS
-    select R.id AS r_id,L.id AS l_id,RG.id AS rg_id,RI.id AS ri_id
+    select R.id AS r_id, R.title as r_title, L.id AS l_id, L.name as l_title, RG.id AS rg_id, RG.name as rg_title, RI.id AS ri_id, RI.name as ri_title
     from  refrigerator_data R left join laboratory_data L on R.laboratory = L.id
         left join research_group_data RG on L.belongs_to = RG.id
         left join research_institute_data RI on RG.belongs_to = RI.id;
