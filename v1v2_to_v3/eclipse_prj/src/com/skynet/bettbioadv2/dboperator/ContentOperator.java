@@ -9,6 +9,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.sql.DataSource;
+
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
 import com.skynet.bettbioadv2.utils.TableIDUtils;
@@ -72,6 +75,8 @@ public class ContentOperator extends BaseDbOperator {
 	private TableIDUtils aippIdHelper;
 	private TableIDUtils cmcLogIdHelper;
 	private TableIDUtils cmcAdmachineIdHelper;
+	private TableIDUtils playPlanInListIdHelper;
+	private TableIDUtils rplIdHelper;
 
 	public void migrateContents() {
 		migrateContentRepository();
@@ -80,6 +85,37 @@ public class ContentOperator extends BaseDbOperator {
 		createNewAdContents();
 
 		migratePlayList();
+		
+		migratePlayRecord();
+	}
+
+	
+	@Override
+	public void setDataSource(DataSource dataSource) {
+		this.dataSource = dataSource;
+		this.jdbcTemplateObject = new JdbcTemplate(this.dataSource);
+
+		jdbcTemplateObject.setFetchSize(1000);
+		jdbcTemplateObject.setQueryTimeout(10000);
+	}
+
+	protected final static String sqlMigratePlayRecordStep1 = "insert into bettbio_ad_v2.ad_play_record_data(id,refrigerator,ad_page_id,count_time) select id,refrigerator,ad_page,count_time from bettbio_ad.ad_play_record_data";
+	protected final static String sqlMigratePlayRecordStep2 = "update bettbio_ad_v2.ad_play_record_data set ad_page_type=?, ad_page_id=? where ad_page_id=?";
+	protected final static String sqlMigratePlayRecordStep3 ="update  bettbio_ad_v2.ad_play_record_data r set customer_company_id = (select c.company from bettbio_ad_v2.customer_marketing_campaign_data c where c.id=r.ad_page_id) where r.ad_page_type='cmc_image'";
+	protected final static String sqlMigratePlayRecordStep4 ="update  bettbio_ad_v2.ad_play_record_data r left join bettbio_ad_v2.ad_machine_full_info_view v on r.refrigerator=v.r_id set research_institute_id = v.ri_id, research_group_id=v.rg_id";
+	private void migratePlayRecord() {
+		executeUpdateSql("Migrate play record step1: import all data", sqlMigratePlayRecordStep1);
+		System.out.println("Migrate play record step2: modify AD content type and id");
+		for(AdContent adContent : allOldAdContents){
+			List<Object> params = new ArrayList<Object>();
+			params.add(adContent.getAdType());
+			params.add(adContent.getNewId());
+			params.add(adContent.getOldId());
+			executeUpdateSql(sqlMigratePlayRecordStep2, params);
+			System.out.println("Update play record, update " + adContent.getOldId() + " to " + adContent.getNewId());
+		}
+		executeUpdateSql("Migrate play record step3: fill company ID", sqlMigratePlayRecordStep3);
+		executeUpdateSql("Migrate play record step4: fill organization info", sqlMigratePlayRecordStep4);
 	}
 
 	private void migratePlayList() {
@@ -103,7 +139,9 @@ public class ContentOperator extends BaseDbOperator {
 		});
 
 		playPlanIdHelper = new TableIDUtils(this, "play_plan_data", "PP%06d");
+		playPlanInListIdHelper = new TableIDUtils(this, "play_plan_in_list_data", "PPIL%06d");
 		playPlanIdHelper.reloadMaxId();
+		playPlanInListIdHelper.reloadMaxId();
 		aippIdHelper = new TableIDUtils(this, "ad_in_play_plan_data", "AIPP%06d");
 		aippIdHelper.reloadMaxId();
 		createPlayPlans();
@@ -115,6 +153,8 @@ public class ContentOperator extends BaseDbOperator {
 		
 		cmcAdmachineIdHelper = new TableIDUtils(this, "customer_required_ad_machine_data", "CRAM%06d");
 		cmcAdmachineIdHelper.reloadMaxId();
+		rplIdHelper = new TableIDUtils(this, "refrigerator_play_list_data", "RPL%06d");
+		rplIdHelper.reloadMaxId();
 		for(Map<String, Object> playList : allPlayList){
 			migrateOnePlayList(playList);
 		}
@@ -129,6 +169,7 @@ public class ContentOperator extends BaseDbOperator {
 	protected final static String sqlQueryAllAdMachineForPlayList = "select refrigerator from bettbio_ad.refrigerator_play_list_data where play_list=?";
 	protected final static String sqlQueryAllAdPageForPlayList = "select ad_page from bettbio_ad.ad_in_page_list_data where play_list=?";
 	protected final static String sqlCreateCmcRequiredAdMachine = "insert into bettbio_ad_v2.customer_required_ad_machine_data(id,belongs_to,refrigerator,start_time,end_time,last_update_time,status,version) values(?,?,?,'00:00:00','23:59:59',now(),'confirmed',1)";
+	protected final static String sqlbindAdMachineToList = "insert into bettbio_ad_v2.refrigerator_play_list_data(id, refrigerator,play_list,version) values(?,?,?,1)";
 	private void migrateOnePlayList(Map<String, Object> playList) {
 		List<Object> params = new ArrayList<Object>();
 		String playListId = (String) playList.get("id");
@@ -154,10 +195,22 @@ public class ContentOperator extends BaseDbOperator {
 				params.add(adPage.getNewId());
 				params.add(adMachineId);
 				
-				System.out.printf("Create CustomerRequiredAdmachine %s, bind %s to %s\n", params.get(0),params.get(2),params.get(1));
+				//System.out.printf("Create CustomerRequiredAdmachine %s, bind %s to %s\n", params.get(0),params.get(2),params.get(1));
 				executeUpdateSql(sqlCreateCmcRequiredAdMachine, params);
 			}
+			System.out.printf("Bind %d AD machines to %s\n", adMachineList.size(),adPage.getNewId());
 		}
+		
+		for(String adMachineId : adMachineList){
+			params = new ArrayList<Object>();
+			params.add(rplIdHelper.getNextId());
+			params.add(adMachineId);
+			params.add(playListId);
+			
+			//System.out.printf("Create CustomerRequiredAdmachine %s, bind %s to %s\n", params.get(0),params.get(2),params.get(1));
+			executeUpdateSql(sqlbindAdMachineToList, params);
+		}
+		System.out.printf("Bind %d AD machines to play list %s\n", adMachineList.size(),playListId);
 	}
 
 	protected static final String sqlLoadOldAdinPlayList = "select id,sequence_number,ad_page from bettbio_ad.ad_in_page_list_data where play_list=?";
@@ -211,6 +264,7 @@ public class ContentOperator extends BaseDbOperator {
 	}
 
 	protected static final String sqlCreatePlayPlan = "insert into bettbio_ad_v2.play_plan_data(id,title,description,belongs_to,start_date,end_date,start_time,end_time,version) values(?,?,?,?,now(),'2999-12-31','00:00:00','23:59:59',1)";
+	protected static final String sqlAddPlayPlanToList = "insert into bettbio_ad_v2.play_plan_in_list_data(id, play_plan, play_list, version) values(?,?,?,1)";
 	private void createPlayPlans() {
 		playListAndPlan = new HashMap<String, String>();
 		for(Map<String, Object> playList : allPlayList){
@@ -224,6 +278,13 @@ public class ContentOperator extends BaseDbOperator {
 			
 			executeUpdateSql(sqlCreatePlayPlan, params);
 			playListAndPlan.put((String) playList.get("id"), nextPlanId);
+			
+			params = new ArrayList<Object>();
+			params.add(playPlanInListIdHelper.getNextId());
+			params.add(nextPlanId);
+			params.add(playList.get("id"));
+			executeUpdateSql(sqlAddPlayPlanToList, params);
+			
 			System.out.println("play plan " + nextPlanId +" for play list " + playList.get("id") +" was created");
 		}
 	}

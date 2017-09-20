@@ -10,8 +10,8 @@ import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.core.RowMapper;
 
 public abstract class BaseDbOperator {
-	private DataSource dataSource;
-	private JdbcTemplate jdbcTemplateObject;
+	protected DataSource dataSource;
+	protected JdbcTemplate jdbcTemplateObject;
 	public DataSource getDataSource() {
 		return dataSource;
 	}
