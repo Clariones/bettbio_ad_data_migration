@@ -16,6 +16,13 @@
 		<value><![CDATA[truncate bettbio_ad_v2.ad_play_record_data]]></value>
 		<value><![CDATA[delete from bettbio_ad_v2.user_domain_data]]></value>
 		<value><![CDATA[delete from bettbio_ad_v2.bettbio_company_data]]></value>
+		<value><![CDATA[DROP VIEW IF EXISTS bettbio_ad_v2.ad_machine_full_info_view]]></value>
+		<value><![CDATA[CREATE VIEW bettbio_ad_v2.ad_machine_full_info_view AS
+    		select R.id AS r_id, R.title as r_title, L.id AS l_id, L.name as l_title, RG.id AS rg_id, RG.name as rg_title, RI.id AS ri_id, RI.name as ri_title
+    			from  bettbio_ad_v2.refrigerator_data R left join bettbio_ad_v2.laboratory_data L on R.laboratory = L.id
+        			left join bettbio_ad_v2.research_group_data RG on L.belongs_to = RG.id
+        			left join bettbio_ad_v2.research_institute_data RI on RG.belongs_to = RI.id]]>
+        </value>
 		<value><![CDATA[insert into bettbio_ad_v2.user_domain_data (id, name, version) values('UD000001','用户区域',1)]]></value>
 		<value><![CDATA[insert into bettbio_ad_v2.bettbio_company_data(id,name,address,email,version) values('BC000001','百图广告部','中国 上海杨浦区国定东路200号 1-15012401','service@bettbio.com',1)]]></value>
 		<value><![CDATA[insert into bettbio_ad_v2.operation_role_data(id,name,description,belongs_to,version) values('OR000001','approver','负责审核客户广告内容的百图员工','BC000001',1)]]></value>

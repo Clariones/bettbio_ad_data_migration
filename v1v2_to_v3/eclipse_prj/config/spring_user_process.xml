@@ -75,6 +75,11 @@
 				values(?,'UD000001','广告发布','marketingCampainInCustomerCompany',?,'null','null','null','null','null',1)]]>
 			</value>
 		</property>
+		<property name="customerUserRoleGroupSql">
+			<value><![CDATA[insert into bettbio_ad_v2.user_role_group_data(id,sec_user,operation_role_group,customer_company,version)
+				values(?,?,'ORG000002',?,1)]]>
+			</value>
+		</property>
 	</bean>
 	
 </beans>

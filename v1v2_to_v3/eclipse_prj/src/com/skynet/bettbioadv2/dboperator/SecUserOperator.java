@@ -16,8 +16,18 @@ public class SecUserOperator extends BaseDbOperator {
 	protected List<String> adminUserObjectAccessList;
 	protected String customerUserAppSql;
 	protected String customerUserDataViewSql;
+	protected String customerUserRoleGroupSql;
 	
 	
+	
+	public String getCustomerUserRoleGroupSql() {
+		return customerUserRoleGroupSql;
+	}
+
+	public void setCustomerUserRoleGroupSql(String customerUserRoleGroupSql) {
+		this.customerUserRoleGroupSql = customerUserRoleGroupSql;
+	}
+
 	public String getCustomerUserAppSql() {
 		return customerUserAppSql;
 	}
@@ -104,9 +114,11 @@ public class SecUserOperator extends BaseDbOperator {
 		List<String> customerUserIds = this.getJdbcTemplateObject().queryForList(sql, String.class);
 		TableIDUtils ccdvIdHelper = new TableIDUtils(this, "customer_company_data_view_data", "CCDV%06d");
 		TableIDUtils uaIdHelper = new TableIDUtils(this, "user_app_data", "UA%06d");
+		TableIDUtils ugIdHelper = new TableIDUtils(this, "user_role_group_data", "URG%06d");
 		
 		ccdvIdHelper.reloadMaxId();
 		uaIdHelper.reloadMaxId();
+		ugIdHelper.reloadMaxId();
 		
 		for(String userId : customerUserIds){
 			
@@ -129,7 +141,17 @@ public class SecUserOperator extends BaseDbOperator {
 				this.executeUpdateSql(customerUserAppSql, params);
 				
 				System.out.println("Create user app for " + userId + " of company " + cmpyId);
+				
+				params = new ArrayList<String>();
+				params.add(ugIdHelper.getNextId());
+				params.add(userId);
+				params.add(cmpyId);
+				this.executeUpdateSql(customerUserRoleGroupSql, params);
+				System.out.println("Create user role group for " + userId + " of company " + cmpyId);
+				
 			}
+			
+			
 		}
 	}
 
