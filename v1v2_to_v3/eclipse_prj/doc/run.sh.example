@@ -1,0 +1,8 @@
+export BASE_FOLDER=/work/data_migration
+export CLASS_PATH=$BASE_FOLDER
+for i in `ls $BASE_FOLDER/lib/*.jar`
+do
+  export CLASS_PATH=$CLASS_PATH:$BASE_FOLDER/$i
+done
+echo $CLASS_PATH
+java -cp $CLASS_PATH com.skynet.bettbioadv2.DataMigration
