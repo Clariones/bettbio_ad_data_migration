@@ -67,7 +67,7 @@
 		</property>
 		<property name="customerUserAppSql">
 			<value><![CDATA[insert into bettbio_ad_v2.user_app_data(id, title, sec_user, app_icon,full_access,permission,object_type,object_id,location,version)
-				values(?,'广告发布',?,'file-image-o',1,'MXWR','CustomerCompanyDataView',?,'0001',1)]]>
+				values(?,'广告发布',?,'file-image-o',1,'Rr','CustomerCompanyDataView',?,'0001',1)]]>
 			</value>
 		</property>
 		<property name="customerUserDataViewSql">
