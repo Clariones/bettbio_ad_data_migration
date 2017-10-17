@@ -46,6 +46,7 @@
 				<value>UA000009,活动管理,bell,BettbioCompany,BC000001</value>
 				<value>UA000010,用户广告审批,user-secret,AdminDataView,ADV000001</value>
 				<value>UA000011,所有内容仓库,file-image-o,BettbioCompany,BC000001</value>
+				<value>UA000012,知识库,book,BettbioKnowledgeBase,BKB000001</value>
 			</list>
 		</property>
 		<property name="adminUserObjectAccessList">

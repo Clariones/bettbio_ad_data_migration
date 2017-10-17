@@ -40,12 +40,13 @@
 		<value><![CDATA[insert into bettbio_ad_v2.operation_role_in_group_data(id,operation_role,operation_role_group,version) value('ORIG000006','OR000003','ORG000003',1)]]></value>
 		<value><![CDATA[insert into bettbio_ad_v2.product_class_data(id,name,description,belongs_to,version) values('PC000001', '初始未确定', '这个产品类型用于初始设定广告内容的相关产品类型，即为‘还不确定具体的产品类型‘的意思', 'BC000001', 1)]]></value>
 
+		<value><![CDATA[insert into bettbio_ad_v2.bettbio_knowledge_base_data(id,name,belongs_to,version) values('BKB000001', '百图知识库', 'BC000001', 1)]]></value>
 	</util:list>
 	<bean id="dbOperator" class="com.skynet.bettbioadv2.dboperator.SimpleSqlExecutor">
 		<property name="dataSource" ref="dataSource"/>
 		<property name="step1_sql_list" ref="sql_list_for_create_pure_v3_data"/>
 		<property name="sqlImportSecUsers">
-			<value><![CDATA[insert into bettbio_ad_v2.sec_user_data(id, login,mobile,email,pwd,last_login,domain,version) 
+			<value><![CDATA[insert into bettbio_ad_v2.sec_user_data(id, login,mobile,email,pwd,last_login_time,domain,version) 
 				select id,login,mobile,email,pwd,last_login,domain,version from bettbio_ad.sec_user_data 
 				where exists(select id from bettbio_ad_v2.user_domain_data where id=bettbio_ad.sec_user_data.domain)]]>
 			</value>

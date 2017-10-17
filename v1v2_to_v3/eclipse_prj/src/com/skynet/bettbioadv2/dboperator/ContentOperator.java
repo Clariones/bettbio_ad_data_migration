@@ -104,6 +104,10 @@ public class ContentOperator extends BaseDbOperator {
 	protected final static String sqlMigratePlayRecordStep3 ="update  bettbio_ad_v2.ad_play_record_data r set customer_company_id = (select c.company from bettbio_ad_v2.customer_marketing_campaign_data c where c.id=r.ad_page_id) where r.ad_page_type='cmc_image'";
 	protected final static String sqlMigratePlayRecordStep4 ="update  bettbio_ad_v2.ad_play_record_data r left join bettbio_ad_v2.ad_machine_full_info_view v on r.refrigerator=v.r_id set research_institute_id = v.ri_id, research_group_id=v.rg_id";
 	private void migratePlayRecord() {
+		if (1==1){
+			System.out.println("Skip play record migration for testing");
+			return;
+		}
 		executeUpdateSql("Migrate play record step1: import all data", sqlMigratePlayRecordStep1);
 		System.out.println("Migrate play record step2: modify AD content type and id");
 		for(AdContent adContent : allOldAdContents){
