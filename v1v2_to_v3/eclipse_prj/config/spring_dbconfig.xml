@@ -41,6 +41,31 @@
 		<value><![CDATA[insert into bettbio_ad_v2.product_class_data(id,name,description,belongs_to,version) values('PC000001', '初始未确定', '这个产品类型用于初始设定广告内容的相关产品类型，即为‘还不确定具体的产品类型‘的意思', 'BC000001', 1)]]></value>
 
 		<value><![CDATA[insert into bettbio_ad_v2.bettbio_knowledge_base_data(id,name,belongs_to,version) values('BKB000001', '百图知识库', 'BC000001', 1)]]></value>
+		<value><![CDATA[insert into bettbio_ad_v2.location_resource_data(id,name,belongs_to,version) values('LR000001', '地理位置资源', 'BKB000001', 1)]]></value>
+		<value><![CDATA[insert into bettbio_ad_v2.china_mainland_province_data(id,name,english_name,belongs_to,version) values('CMP000001', '上海', '上海', 'LR000001', 1)]]></value>
+		<value><![CDATA[insert into bettbio_ad_v2.china_mainland_city_data(id,name,english_name,province,version) values('CMC000001', '上海', '上海', 'CMP000001', 1)]]></value>
+		
+		<value><![CDATA[insert into bettbio_ad_v2.research_institute_resource_data(id,name,belongs_to,version) values('RIR000001', '科研院校和机构', 'BKB000001', 1)]]></value>
+		<value><![CDATA[insert into bettbio_ad_v2.general_research_institute_data(id,unique_name,chinese_name, english_name, institute_type, city, province, belongs_to, version)
+				values('GRI000001','样例_保护伞公司','布雷拉公司','Umbrella Corporation','OTHER_NOT_CU','CMC000001','CMP000001','RIR000001',1)
+		]]></value>
+		<value><![CDATA[insert into bettbio_ad_v2.research_project_group_data(id, unique_name,chinese_name, english_name,
+					research_area,projects_undertaken,research_findings,institute,version)
+				values('RPG000001','样例_T细胞课题组','复旦大学Ｔ细胞研究课题组','T Cell research group, Fudan University',
+					'研究Ｔ细胞是否能够制造生化兵',
+					'承担Ｔ细胞的军事化应用课题',
+					'舔食者, 追击者, 暴君, 猎杀者, 斧头怪',
+					'GRI000001',1)
+		]]></value>
+		<value><![CDATA[insert into bettbio_ad_v2.research_personnel_data(id, unique_name, photo_image, chinese_name, english_name, member_type, 
+					position_title, educational_background, landline_phone, cell_phone,
+					postal_address, research_project_group, version)
+				values('RP000001','样例_以撒西博士','DR．isaacs','public/bettbioad/example/12/34/56/78/issaacs.jpg','DR．isaacs','tutor',
+					'Doctor','Doctor of Biology','+86-0755-61354310','13812345678',
+					'广东 深圳深圳市福田区华强北太平洋安防市场4B357 ','RPG000001',1)
+		]]></value>
+		<value><![CDATA[insert into bettbio_ad_v2.research_person_mailbox_data(id,owner,email,version) values('RPM000001', 'RP000001', 'Issaacs@umbrella.com', 1)]]></value>
+		<value><![CDATA[insert into bettbio_ad_v2.research_person_mailbox_data(id,owner,email,version) values('RPM000002', 'RP000001', 'PaulAnderson@umbrella.com', 1)]]></value>
 	</util:list>
 	<bean id="dbOperator" class="com.skynet.bettbioadv2.dboperator.SimpleSqlExecutor">
 		<property name="dataSource" ref="dataSource"/>
