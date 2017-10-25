@@ -44,7 +44,8 @@
 		<value><![CDATA[insert into bettbio_ad_v2.location_resource_data(id,name,belongs_to,version) values('LR000001', '地理位置资源', 'BKB000001', 1)]]></value>
 		<value><![CDATA[insert into bettbio_ad_v2.china_mainland_province_data(id,name,english_name,belongs_to,version) values('CMP000001', '上海', '上海', 'LR000001', 1)]]></value>
 		<value><![CDATA[insert into bettbio_ad_v2.china_mainland_city_data(id,name,english_name,province,version) values('CMC000001', '上海', '上海', 'CMP000001', 1)]]></value>
-		
+		<value><![CDATA[insert into bettbio_ad_v2.extern_data_resource_data(id,name,belongs_to,version) values('EDR000001', '外部数据资源', 'BKB000001', 1)]]></value>
+		<!-- 下面几个数据是样例数据 -->
 		<value><![CDATA[insert into bettbio_ad_v2.research_institute_resource_data(id,name,belongs_to,version) values('RIR000001', '科研院校和机构', 'BKB000001', 1)]]></value>
 		<value><![CDATA[insert into bettbio_ad_v2.general_research_institute_data(id,unique_name,chinese_name, english_name, institute_type, city, province, belongs_to, version)
 				values('GRI000001','样例_保护伞公司','布雷拉公司','Umbrella Corporation','OTHER_NOT_CU','CMC000001','CMP000001','RIR000001',1)
@@ -66,6 +67,12 @@
 		]]></value>
 		<value><![CDATA[insert into bettbio_ad_v2.research_person_mailbox_data(id,owner,email,version) values('RPM000001', 'RP000001', 'Issaacs@umbrella.com', 1)]]></value>
 		<value><![CDATA[insert into bettbio_ad_v2.research_person_mailbox_data(id,owner,email,version) values('RPM000002', 'RP000001', 'PaulAnderson@umbrella.com', 1)]]></value>
+		<!-- 样例数据结束. 以下是数据导入增加的额外索引和临时表 -->
+		<value><![CDATA[ALTER TABLE `bettbio_ad_v2`.`input_users_data` DROP INDEX `idx_input_users_data４input_uid`]]></value>
+		<value><![CDATA[ALTER TABLE `bettbio_ad_v2`.`input_users_data` ADD INDEX `idx_input_users_data４input_uid` (`input_uid` ASC)]]></value>
+		<value><![CDATA[ALTER TABLE `bettbio_ad_v2`.`import_result_paper_data` DROP INDEX `idx_import_result_paper4input_pid`]]></value>
+		<value><![CDATA[ALTER TABLE `bettbio_ad_v2`.`import_result_paper_data` ADD INDEX `idx_import_result_paper4input_pid` (`input_pid` ASC)]]></value>
+		
 	</util:list>
 	<bean id="dbOperator" class="com.skynet.bettbioadv2.dboperator.SimpleSqlExecutor">
 		<property name="dataSource" ref="dataSource"/>
