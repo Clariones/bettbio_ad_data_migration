@@ -60,10 +60,13 @@
 		]]></value>
 		<value><![CDATA[insert into bettbio_ad_v2.research_personnel_data(id, unique_name, photo_image, chinese_name, english_name, member_type, 
 					position_title, educational_background, landline_phone, cell_phone,
-					postal_address, research_project_group, version)
+					postal_address, belongs_to, version)
 				values('RP000001','样例_以撒西博士','DR．isaacs','public/bettbioad/example/12/34/56/78/issaacs.jpg','DR．isaacs','tutor',
 					'Doctor','Doctor of Biology','+86-0755-61354310','13812345678',
-					'广东 深圳深圳市福田区华强北太平洋安防市场4B357 ','RPG000001',1)
+					'广东 深圳深圳市福田区华强北太平洋安防市场4B357 ','RIR000001',1)
+		]]></value>
+		<value><![CDATA[insert into bettbio_ad_v2.research_group_members_data(id,research_project_group,research_personnel, member_type, version)
+				values('RGM000001','RPG000001','RP000001','tutor',1)
 		]]></value>
 		<value><![CDATA[insert into bettbio_ad_v2.research_person_mailbox_data(id,owner,email,version) values('RPM000001', 'RP000001', 'Issaacs@umbrella.com', 1)]]></value>
 		<value><![CDATA[insert into bettbio_ad_v2.research_person_mailbox_data(id,owner,email,version) values('RPM000002', 'RP000001', 'PaulAnderson@umbrella.com', 1)]]></value>
