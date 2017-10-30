@@ -61,7 +61,7 @@
 		<value><![CDATA[insert into bettbio_ad_v2.research_personnel_data(id, unique_name, photo_image, chinese_name, english_name, member_type, 
 					position_title, educational_background, landline_phone, cell_phone,
 					postal_address, belongs_to, version)
-				values('RP000001','样例_以撒西博士','DR．isaacs','public/bettbioad/example/12/34/56/78/issaacs.jpg','DR．isaacs','tutor',
+				values('RP000001','样例_以撒西博士','public/bettbioad/example/12/34/56/78/issaacs.jpg','DR．isaacs','DR．isaacs','tutor',
 					'Doctor','Doctor of Biology','+86-0755-61354310','13812345678',
 					'广东 深圳深圳市福田区华强北太平洋安防市场4B357 ','RIR000001',1)
 		]]></value>
