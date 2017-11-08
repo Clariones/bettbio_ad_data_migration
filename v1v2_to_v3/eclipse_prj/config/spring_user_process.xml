@@ -68,12 +68,17 @@
 		</property>
 		<property name="customerUserAppSql">
 			<value><![CDATA[insert into bettbio_ad_v2.user_app_data(id, title, sec_user, app_icon,full_access,permission,object_type,object_id,location,version)
-				values(?,'广告发布',?,'file-image-o',1,'Rr','CustomerCompanyDataView',?,'0001',1)]]>
+				values(?,'搜索课题组',?,'file-image-o',1,'Rr','CustomerCompanyDataView',?,'0001',1)]]>
 			</value>
 		</property>
 		<property name="customerUserDataViewSql">
 			<value><![CDATA[insert into bettbio_ad_v2.customer_company_data_view_data(id,belongs_to,title,data_view_type,arg1,arg2,arg3,arg4,arg5,arg6,version) 
 				values(?,'UD000001','广告发布','marketingCampainInCustomerCompany',?,'null','null','null','null','null',1)]]>
+			</value>
+		</property>
+		<property name="customerSearchPageViewSql">
+			<value><![CDATA[insert into bettbio_ad_v2.customer_company_data_view_data(id,belongs_to,title,data_view_type,arg1,arg2,arg3,arg4,arg5,arg6,version) 
+				values(?,'UD000001','搜索课题组','searchPageForCustomerCompany',?,'null','null','null','null','null',1)]]>
 			</value>
 		</property>
 		<property name="customerUserRoleGroupSql">

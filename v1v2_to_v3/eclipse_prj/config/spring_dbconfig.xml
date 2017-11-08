@@ -16,6 +16,7 @@
 		<value><![CDATA[truncate bettbio_ad_v2.ad_play_record_data]]></value>
 		<value><![CDATA[delete from bettbio_ad_v2.user_domain_data]]></value>
 		<value><![CDATA[delete from bettbio_ad_v2.bettbio_company_data]]></value>
+		<value><![CDATA[delete from bettbio_ad_v2.content_repository_data]]></value>
 		<value><![CDATA[DROP VIEW IF EXISTS bettbio_ad_v2.ad_machine_full_info_view]]></value>
 		<value><![CDATA[CREATE VIEW bettbio_ad_v2.ad_machine_full_info_view AS
     		select R.id AS r_id, R.title as r_title, L.id AS l_id, L.name as l_title, RG.id AS rg_id, RG.name as rg_title, RI.id AS ri_id, RI.name as ri_title

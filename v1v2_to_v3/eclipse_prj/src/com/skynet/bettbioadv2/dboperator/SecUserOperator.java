@@ -17,9 +17,18 @@ public class SecUserOperator extends BaseDbOperator {
 	protected String customerUserAppSql;
 	protected String customerUserDataViewSql;
 	protected String customerUserRoleGroupSql;
+	protected String customerSearchPageViewSql;
 	
 	
 	
+	public String getCustomerSearchPageViewSql() {
+		return customerSearchPageViewSql;
+	}
+
+	public void setCustomerSearchPageViewSql(String customerSearchPageViewSql) {
+		this.customerSearchPageViewSql = customerSearchPageViewSql;
+	}
+
 	public String getCustomerUserRoleGroupSql() {
 		return customerUserRoleGroupSql;
 	}
@@ -133,6 +142,12 @@ public class SecUserOperator extends BaseDbOperator {
 				params.add(ccdvId);
 				params.add(cmpyId);
 				this.executeUpdateSql(customerUserDataViewSql, params);
+				
+				params = new ArrayList<String>();
+				ccdvId = ccdvIdHelper.getNextId();
+				params.add(ccdvId);
+				params.add(cmpyId);
+				this.executeUpdateSql(customerSearchPageViewSql, params);
 				
 				params.clear();
 				params.add(uaIdHelper.getNextId());
