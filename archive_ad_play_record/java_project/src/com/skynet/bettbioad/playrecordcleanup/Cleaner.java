@@ -17,9 +17,9 @@ import java.util.Properties;
 
 public class Cleaner {
 
-	private File outputBaseFolder;
-	private Connection dbConn;
-	private PrintStream outFile;
+	protected File outputBaseFolder;
+	protected Connection dbConn;
+	protected PrintStream outFile;
 
 	public void init(Properties props) throws Exception {
 		this.outputBaseFolder = new File(props.getProperty("archive.folder"));
@@ -27,7 +27,7 @@ public class Cleaner {
 
 	}
 
-	private Connection createDbConnection(Properties props) throws Exception {
+	protected Connection createDbConnection(Properties props) throws Exception {
 		Class.forName(props.getProperty("data.jdbc.class"));
 		String dbUrl = props.getProperty("data.jdbc.url");
 		String userName = props.getProperty("data.jdbc.username");
@@ -42,9 +42,9 @@ public class Cleaner {
 		cleanUpBetweenDays(startDate, endDate);
 	}
 
-	private static final SimpleDateFormat fmtDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	protected static final SimpleDateFormat fmtDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-	private void cleanUpBetweenDays(Date startDate, Date endDate) throws Exception {
+	protected void cleanUpBetweenDays(Date startDate, Date endDate) throws Exception {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(startDate);
 		while (true) {
@@ -60,24 +60,19 @@ public class Cleaner {
 		}
 	}
 
-	private void cleanUpRecords(Date fromDate, Date toDate) throws Exception {
-		String sql = "select id,refrigerator,ad_page,count_time from ad_play_record_data where count_time BETWEEN ? and ? order by count_time asc";
+	protected void cleanUpRecords(Date fromDate, Date toDate) throws Exception {
+		String sql = getLoadRecordSql();
 		PreparedStatement st = dbConn.prepareStatement(sql);
 		st.setTimestamp(1, new Timestamp(fromDate.getTime()));
 		st.setTimestamp(2, new Timestamp(toDate.getTime()));
 		ResultSet rs = st.executeQuery();
 		
-		PreparedStatement stDelete = dbConn.prepareStatement("delete from ad_play_record_data where id<=?");
+		PreparedStatement stDelete = dbConn.prepareStatement(getDeleteRecordSql());
 		int added = 0;
 		createArchiveFile(fromDate);
 		String rcdId = null;
 		while(rs.next()){
-			rcdId = rs.getString(1);
-			String rfgId = rs.getString(2);
-			String adPageId = rs.getString(3);
-			String rcdTime = rs.getString(4);
-			
-			outFile.printf("%s, %s,%s,%s\n", rcdId, rfgId, adPageId, rcdTime);
+			rcdId = writeRecord(rs);
 //			stDelete.setString(1,rcdId);
 //			stDelete.execute();
 //			stDelete.addBatch();
@@ -100,15 +95,35 @@ public class Cleaner {
 		st.close();
 	}
 
-	private static final SimpleDateFormat fmtDay = new SimpleDateFormat("yyyyMMdd");
-	private void createArchiveFile(Date fromDate) throws Exception {
+	protected String writeRecord(ResultSet rs) throws SQLException {
+		String rcdId;
+		rcdId = rs.getString(1);
+		String rfgId = rs.getString(2);
+		String adPageId = rs.getString(3);
+		String rcdTime = rs.getString(4);
+		
+		outFile.printf("%s, %s,%s,%s\n", rcdId, rfgId, adPageId, rcdTime);
+		return rcdId;
+	}
+
+	protected String getDeleteRecordSql() {
+		return "delete from ad_play_record_data where id<=?";
+	}
+
+	protected String getLoadRecordSql() {
+		String sql = "select id,refrigerator,ad_page,count_time from ad_play_record_data where count_time BETWEEN ? and ? order by count_time asc";
+		return sql;
+	}
+
+	protected static final SimpleDateFormat fmtDay = new SimpleDateFormat("yyyyMMdd");
+	protected void createArchiveFile(Date fromDate) throws Exception {
 		String name = String.format("AD_RCD_%s.txt", fmtDay.format(fromDate));
 		File output = new File(outputBaseFolder, name);
 		System.out.println("Save to " + output.getCanonicalPath());
 		outFile = FileUtils.createFileForWrite(output);
 	}
 
-	private Date toDayBegin(Date date) {
+	protected Date toDayBegin(Date date) {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(date);
 		calendar.set(Calendar.HOUR_OF_DAY, 0);
@@ -117,7 +132,7 @@ public class Cleaner {
 		return calendar.getTime();
 	}
 
-	private Date calcClosingDate() {
+	protected Date calcClosingDate() {
 		Date date = new Date();
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(date);
@@ -126,7 +141,7 @@ public class Cleaner {
 		return toDayEnd(closeDate);
 	}
 
-	private Date toDayEnd(Date date) {
+	protected Date toDayEnd(Date date) {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(date);
 		calendar.set(Calendar.HOUR_OF_DAY, 23);
@@ -135,11 +150,11 @@ public class Cleaner {
 		return calendar.getTime();
 	}
 
-	private Date findEarlestDate() throws SQLException {
+	protected Date findEarlestDate() throws SQLException {
 		return queryDate("select min(count_time) from ad_play_record_data");
 	}
 
-	private Date queryDate(String sql) throws SQLException {
+	protected Date queryDate(String sql) throws SQLException {
 		Statement st = dbConn.createStatement();
 		ResultSet rs = st.executeQuery(sql);
 		Date result = null;

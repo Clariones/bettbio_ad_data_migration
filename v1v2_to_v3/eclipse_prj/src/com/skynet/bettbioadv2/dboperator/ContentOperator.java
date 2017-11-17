@@ -23,7 +23,8 @@ public class ContentOperator extends BaseDbOperator {
 	protected String sqlCreateIntraAd;
 	protected String sqlCreateCmcAd;
 	protected String adminUserId;
-	
+	protected List<Map<String, String>> adInPlayList;
+	protected int startSeqNo = 0;
 
 	public String getAdminUserId() {
 		return adminUserId;
@@ -79,6 +80,7 @@ public class ContentOperator extends BaseDbOperator {
 	private TableIDUtils rplIdHelper;
 
 	public void migrateContents() {
+		this.adInPlayList = new ArrayList<>();
 		migrateContentRepository();
 
 		loadAllAdContents();
@@ -172,7 +174,7 @@ public class ContentOperator extends BaseDbOperator {
 	 */
 	protected final static String sqlQueryAllAdMachineForPlayList = "select refrigerator from bettbio_ad.refrigerator_play_list_data where play_list=?";
 	protected final static String sqlQueryAllAdPageForPlayList = "select ad_page from bettbio_ad.ad_in_page_list_data where play_list=?";
-	protected final static String sqlCreateCmcRequiredAdMachine = "insert into bettbio_ad_v2.customer_required_ad_machine_data(id,belongs_to,refrigerator,start_time,end_time,last_update_time,status,version) values(?,?,?,'00:00:00','23:59:59',now(),'confirmed',1)";
+	protected final static String sqlCreateCmcRequiredAdMachine = "insert into bettbio_ad_v2.customer_required_ad_machine_data(id,belongs_to,refrigerator,sequence_number,start_time,end_time,last_update_time,status,version) values(?,?,?,?,'00:00:00','23:59:59',now(),'confirmed',1)";
 	protected final static String sqlbindAdMachineToList = "insert into bettbio_ad_v2.refrigerator_play_list_data(id, refrigerator,play_list,version) values(?,?,?,1)";
 	private void migrateOnePlayList(Map<String, Object> playList) {
 		List<Object> params = new ArrayList<Object>();
@@ -198,7 +200,7 @@ public class ContentOperator extends BaseDbOperator {
 				params.add(cmcAdmachineIdHelper.getNextId());
 				params.add(adPage.getNewId());
 				params.add(adMachineId);
-				
+				params.add(getSeqNum(adPage.getOldId(), playListId));
 				//System.out.printf("Create CustomerRequiredAdmachine %s, bind %s to %s\n", params.get(0),params.get(2),params.get(1));
 				executeUpdateSql(sqlCreateCmcRequiredAdMachine, params);
 			}
@@ -217,8 +219,19 @@ public class ContentOperator extends BaseDbOperator {
 		System.out.printf("Bind %d AD machines to play list %s\n", adMachineList.size(),playListId);
 	}
 
-	protected static final String sqlLoadOldAdinPlayList = "select id,sequence_number,ad_page from bettbio_ad.ad_in_page_list_data where play_list=?";
+	private int getSeqNum(String oldId, String playListId) {
+		for(Map<String, String> adInPlan : adInPlayList){
+			// id,sequence_number,ad_page,play_list
+			if (oldId.equals(adInPlan.get("old_id")) && playListId.equals(adInPlan.get("play_list"))){
+				return Integer.parseInt(adInPlan.get("sequence_number"));
+			}
+		}
+		return startSeqNo++;
+	}
+
+	protected static final String sqlLoadOldAdinPlayList = "select id,sequence_number,ad_page,play_list from bettbio_ad.ad_in_page_list_data where play_list=?";
 	private void createAdInPlayPlans() {
+		
 		for(Map<String, Object> playList : allPlayList){
 			// create play plan for it
 			List<Object> params = new ArrayList<Object>();
@@ -232,6 +245,7 @@ public class ContentOperator extends BaseDbOperator {
 					data.put("id", rs.getString("id"));
 					data.put("sequence_number", rs.getString("sequence_number"));
 					data.put("old_id", rs.getString("ad_page"));
+					data.put("play_list", rs.getString("play_list"));
 					return data;
 				}});
 			
@@ -240,6 +254,8 @@ public class ContentOperator extends BaseDbOperator {
 				continue;
 			}
 			for(Map<String, String> oldAd : boundAds){
+				startSeqNo = Math.max(startSeqNo, Integer.parseInt(oldAd.get("sequence_number")));
+				adInPlayList.add(oldAd);
 				String oldId = oldAd.get("old_id");
 				AdContent newAd = findAdContentByOldId(oldId);
 				if (newAd == null){
@@ -251,6 +267,7 @@ public class ContentOperator extends BaseDbOperator {
 				}
 				addContentIntoPlayPlan(oldAd, newAd, playListAndPlan.get(playListId));
 			}
+			startSeqNo++;
 		}
 	}
 
