@@ -48,6 +48,10 @@
 		<value><![CDATA[insert into bettbio_ad_v2.extern_data_resource_data(id,name,belongs_to,version) values('EDR000001', '外部数据资源', 'BKB000001', 1)]]></value>
 		<!-- 下面几个数据是样例数据 -->
 		<value><![CDATA[insert into bettbio_ad_v2.research_institute_resource_data(id,name,belongs_to,version) values('RIR000001', '科研院校和机构', 'BKB000001', 1)]]></value>
+		<value><![CDATA[insert into bettbio_ad_v2.research_institute_type_data(id,name,belongs_to,version) values('CU_985', '985高校', 'RIR000001', 1)]]></value>
+		<value><![CDATA[insert into bettbio_ad_v2.research_institute_type_data(id,name,belongs_to,version) values('CU_211', '211高校', 'RIR000001', 1)]]></value>
+		<value><![CDATA[insert into bettbio_ad_v2.research_institute_type_data(id,name,belongs_to,version) values('CU_COMMON', '一般高校', 'RIR000001', 1)]]></value>
+		<value><![CDATA[insert into bettbio_ad_v2.research_institute_type_data(id,name,belongs_to,version) values('OTHER_NOT_CU', '其它非高校机构', 'RIR000001', 1)]]></value>
 		<value><![CDATA[insert into bettbio_ad_v2.general_research_institute_data(id,unique_name,chinese_name, english_name, institute_type, city, province, belongs_to, version)
 				values('GRI000001','样例_保护伞公司','布雷拉公司','Umbrella Corporation','OTHER_NOT_CU','CMC000001','CMP000001','RIR000001',1)
 		]]></value>
