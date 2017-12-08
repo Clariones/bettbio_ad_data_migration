@@ -25,6 +25,7 @@
 		<property name="maxActive" value="30" />
 	</bean>
 	
+	<import resource="spring_init_data.xml" />
 	<import resource="spring_dbconfig.xml" />
 	<import resource="spring_user_process.xml"/>
 	<import resource="spring_content_process.xml"/>

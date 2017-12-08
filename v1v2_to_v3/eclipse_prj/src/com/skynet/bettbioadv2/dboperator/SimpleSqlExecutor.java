@@ -1,9 +1,14 @@
 package com.skynet.bettbioadv2.dboperator;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
+
+import com.skynet.bettbioadv2.initdata.BaseInitDataOperator;
 
 public class SimpleSqlExecutor extends BaseDbOperator{
 	protected List<String> step1_sql_list;
+	protected List<String> step2_sql_list;
 	protected String sqlImportSecUsers;
 	protected String sqlImportResearchInstitute;
 	protected String sqlImportResearchGroup;
@@ -12,8 +17,22 @@ public class SimpleSqlExecutor extends BaseDbOperator{
 	protected String sqlImportCustomerCompany;
 	protected String sqlImportApks;
 	protected String sqlImportLabratoryStep2;
-
+	protected List<BaseInitDataOperator> initDataOperators;
 	
+	
+	
+	public List<BaseInitDataOperator> getInitDataOperators() {
+		return initDataOperators;
+	}
+	public void setInitDataOperators(List<BaseInitDataOperator> initDataOperators) {
+		this.initDataOperators = initDataOperators;
+	}
+	public List<String> getStep2_sql_list() {
+		return step2_sql_list;
+	}
+	public void setStep2_sql_list(List<String> step2_sql_list) {
+		this.step2_sql_list = step2_sql_list;
+	}
 	public String getSqlImportLabratoryStep2() {
 		return sqlImportLabratoryStep2;
 	}
@@ -74,6 +93,24 @@ public class SimpleSqlExecutor extends BaseDbOperator{
 		int i=0;
 		System.out.print("Initialize DB...");
 		for(String sql : step1_sql_list){
+			i += executeUpdateSql(null, sql);
+		}
+		System.out.println(" " + i + " rows affected.");
+		// fill initial data now
+		Connection dbConn;
+		try {
+			dbConn = getJdbcTemplateObject().getDataSource().getConnection();
+			int done = 0;
+			for(BaseInitDataOperator operator: initDataOperators){
+				done += operator.execute(dbConn);
+			}
+			dbConn.close();
+			System.out.println(" " + done + " data was inserted.");
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.exit(-1);
+		}
+		for(String sql : step2_sql_list){
 			i += executeUpdateSql(null, sql);
 		}
 		System.out.println(" " + i + " rows affected.");

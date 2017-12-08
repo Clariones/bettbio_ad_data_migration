@@ -24,35 +24,9 @@
         			left join bettbio_ad_v2.research_group_data RG on L.belongs_to = RG.id
         			left join bettbio_ad_v2.research_institute_data RI on RG.belongs_to = RI.id]]>
         </value>
-		<value><![CDATA[insert into bettbio_ad_v2.user_domain_data (id, name, version) values('UD000001','用户区域',1)]]></value>
-		<value><![CDATA[insert into bettbio_ad_v2.bettbio_company_data(id,name,address,email,version) values('BC000001','百图广告部','中国 上海杨浦区国定东路200号 1-15012401','service@bettbio.com',1)]]></value>
-		<value><![CDATA[insert into bettbio_ad_v2.operation_role_data(id,name,description,belongs_to,version) values('OR000001','approver','负责审核客户广告内容的百图员工','BC000001',1)]]></value>
-		<value><![CDATA[insert into bettbio_ad_v2.operation_role_data(id,name,description,belongs_to,version) values('OR000002','customer_editor','客户公司负责广告内容编辑的人','BC000001',1)]]></value>
-		<value><![CDATA[insert into bettbio_ad_v2.operation_role_data(id,name,description,belongs_to,version) values('OR000003','internal_editor','负责内部广告内容编辑的百图员工','BC000001',1)]]></value>
-		<value><![CDATA[insert into bettbio_ad_v2.operation_role_group_data(id,name,description,belongs_to,version) value('ORG000001','super_admin','具备所有权限的角色组','BC000001',1)]]></value>
-		<value><![CDATA[insert into bettbio_ad_v2.operation_role_group_data(id,name,description,belongs_to,version) value('ORG000002','customer_ad_editor_only','仅能够编辑客户广告的组','BC000001',1)]]></value>
-		<value><![CDATA[insert into bettbio_ad_v2.operation_role_group_data(id,name,description,belongs_to,version) value('ORG000003','intra_ad_editor_only','仅能够编辑内部广告的组','BC000001',1)]]></value>
-		<value><![CDATA[insert into bettbio_ad_v2.operation_role_group_data(id,name,description,belongs_to,version) value('ORG000004','approver_only','仅能够审核客户广告的组','BC000001',1)]]></value>
-		<value><![CDATA[insert into bettbio_ad_v2.operation_role_in_group_data(id,operation_role,operation_role_group,version) value('ORIG000001','OR000001','ORG000001',1)]]></value>
-		<value><![CDATA[insert into bettbio_ad_v2.operation_role_in_group_data(id,operation_role,operation_role_group,version) value('ORIG000002','OR000002','ORG000001',1)]]></value>
-		<value><![CDATA[insert into bettbio_ad_v2.operation_role_in_group_data(id,operation_role,operation_role_group,version) value('ORIG000003','OR000003','ORG000001',1)]]></value>
-		<value><![CDATA[insert into bettbio_ad_v2.operation_role_in_group_data(id,operation_role,operation_role_group,version) value('ORIG000004','OR000001','ORG000004',1)]]></value>
-		<value><![CDATA[insert into bettbio_ad_v2.operation_role_in_group_data(id,operation_role,operation_role_group,version) value('ORIG000005','OR000002','ORG000002',1)]]></value>
-		<value><![CDATA[insert into bettbio_ad_v2.operation_role_in_group_data(id,operation_role,operation_role_group,version) value('ORIG000006','OR000003','ORG000003',1)]]></value>
-		<value><![CDATA[insert into bettbio_ad_v2.product_class_data(id,name,description,belongs_to,version) values('PC000001', '初始未确定', '这个产品类型用于初始设定广告内容的相关产品类型，即为‘还不确定具体的产品类型‘的意思', 'BC000001', 1)]]></value>
-
-		<value><![CDATA[insert into bettbio_ad_v2.bettbio_knowledge_base_data(id,name,belongs_to,version) values('BKB000001', '百图知识库', 'BC000001', 1)]]></value>
-		<value><![CDATA[insert into bettbio_ad_v2.location_resource_data(id,name,belongs_to,version) values('LR000001', '地理位置资源', 'BKB000001', 1)]]></value>
-		<value><![CDATA[insert into bettbio_ad_v2.china_mainland_province_data(id,name,english_name,belongs_to,version) values('CMP000001', '上海', '上海', 'LR000001', 1)]]></value>
-		<value><![CDATA[insert into bettbio_ad_v2.china_mainland_city_data(id,name,english_name,province,version) values('CMC000001', '上海', '上海', 'CMP000001', 1)]]></value>
-		<value><![CDATA[insert into bettbio_ad_v2.extern_data_resource_data(id,name,belongs_to,version) values('EDR000001', '外部数据资源', 'BKB000001', 1)]]></value>
-		<!-- 下面几个数据是样例数据 -->
-		<value><![CDATA[insert into bettbio_ad_v2.research_institute_resource_data(id,name,belongs_to,version) values('RIR000001', '科研院校和机构', 'BKB000001', 1)]]></value>
-		<value><![CDATA[insert into bettbio_ad_v2.research_institute_type_data(id,name,belongs_to,version) values('CU_985', '985高校', 'RIR000001', 1)]]></value>
-		<value><![CDATA[insert into bettbio_ad_v2.research_institute_type_data(id,name,belongs_to,version) values('CU_211', '211高校', 'RIR000001', 1)]]></value>
-		<value><![CDATA[insert into bettbio_ad_v2.research_institute_type_data(id,name,belongs_to,version) values('CU_COMMON', '一般高校', 'RIR000001', 1)]]></value>
-		<value><![CDATA[insert into bettbio_ad_v2.research_institute_type_data(id,name,belongs_to,version) values('OTHER_NOT_CU', '其它非高校机构', 'RIR000001', 1)]]></value>
-		<value><![CDATA[insert into bettbio_ad_v2.general_research_institute_data(id,unique_name,chinese_name, english_name, institute_type, city, province, belongs_to, version)
+    </util:list>
+    <util:list id="sql_list_not_used">
+    <value><![CDATA[insert into bettbio_ad_v2.general_research_institute_data(id,unique_name,chinese_name, english_name, institute_type, city, province, belongs_to, version)
 				values('GRI000001','样例_保护伞公司','布雷拉公司','Umbrella Corporation','OTHER_NOT_CU','CMC000001','CMP000001','RIR000001',1)
 		]]></value>
 		<value><![CDATA[insert into bettbio_ad_v2.research_project_group_data(id, unique_name,chinese_name, english_name,
@@ -75,7 +49,10 @@
 		]]></value>
 		<value><![CDATA[insert into bettbio_ad_v2.research_person_mailbox_data(id,owner,email,version) values('RPM000001', 'RP000001', 'Issaacs@umbrella.com', 1)]]></value>
 		<value><![CDATA[insert into bettbio_ad_v2.research_person_mailbox_data(id,owner,email,version) values('RPM000002', 'RP000001', 'PaulAnderson@umbrella.com', 1)]]></value>
-		<!-- 样例数据结束. 以下是数据导入增加的额外索引和临时表 -->
+    
+    </util:list>
+	<!-- 样例数据结束. 以下是数据导入增加的额外索引和临时表 -->
+	<util:list id="sql_list_for_create_sample_data">
 		<value><![CDATA[ALTER TABLE `bettbio_ad_v2`.`input_users_data` DROP INDEX `idx_input_users_data４input_uid`]]></value>
 		<value><![CDATA[ALTER TABLE `bettbio_ad_v2`.`input_users_data` ADD INDEX `idx_input_users_data４input_uid` (`input_uid` ASC)]]></value>
 		<value><![CDATA[ALTER TABLE `bettbio_ad_v2`.`import_result_paper_data` DROP INDEX `idx_import_result_paper4input_pid`]]></value>
@@ -85,6 +62,27 @@
 	<bean id="dbOperator" class="com.skynet.bettbioadv2.dboperator.SimpleSqlExecutor">
 		<property name="dataSource" ref="dataSource"/>
 		<property name="step1_sql_list" ref="sql_list_for_create_pure_v3_data"/>
+		<property name="initDataOperators">
+			<list>
+				<ref bean="bettbio_company_initor"/>
+				<ref bean="user_domain_initor"/>
+				<ref bean="operation_role_initor"/>
+				<ref bean="operation_role_group_initor"/>
+				<ref bean="operation_role_in_group_initor"/>
+				<ref bean="product_class_initor"/>
+				<ref bean="knowledge_base_initor"/>
+				<ref bean="location_resource_initor"/>
+				<ref bean="province_resource_initor"/>
+				<ref bean="city_resource_initor"/>
+				<ref bean="external_resource_initor"/>
+				<ref bean="standard_resource_initor"/>
+				<ref bean="standard_institute_type_initor"/>
+				<ref bean="standard_institute_name_initor"/>
+				<ref bean="institute_name_mainten_initor"/>
+				<ref bean="research_institute_initor"/>
+			</list>
+		</property>
+		<property name="step2_sql_list" ref="sql_list_for_create_sample_data"/>
 		<property name="sqlImportSecUsers">
 			<value><![CDATA[insert into bettbio_ad_v2.sec_user_data(id, login,mobile,email,pwd,last_login_time,domain,version) 
 				select id,login,mobile,email,pwd,last_login,domain,version from bettbio_ad.sec_user_data 

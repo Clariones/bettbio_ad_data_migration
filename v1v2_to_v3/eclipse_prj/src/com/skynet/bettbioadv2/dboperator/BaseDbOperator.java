@@ -41,9 +41,9 @@ public abstract class BaseDbOperator {
 		// System.out.print(sql);
 		Object[] args = null;
 		if (description != null) {
-			System.out.print(description + "...");
+			System.out.print(description + "... ");
 		}
-		System.out.print("Run SQL " + sql);
+		System.out.println("Run SQL " + sql);
 		try {
 			int n = getJdbcTemplateObject().update(sql, args);
 			if (description != null) {
