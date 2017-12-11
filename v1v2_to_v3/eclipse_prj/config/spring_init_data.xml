@@ -1,0 +1,1420 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:task="http://www.springframework.org/schema/task" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
+   http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+   http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
+   http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.1.xsd
+   http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
+   http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.1.xsd
+   http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.1.xsd">
+
+	<bean id="bettbio_company_initor" class="com.skynet.bettbioadv2.initdata.AllStringInitOperator">
+		<property name="sql"
+			value="insert into bettbio_ad_v2.bettbio_company_data(id,name,address,email,version) values(?,?,?,?,1)" />
+		<property name="dataList">
+			<list>
+				<value>BC000001, 百图广告部, 中国 上海杨浦区国定东路200号 1-15012401,
+					service@bettbio.com
+				</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="user_domain_initor" class="com.skynet.bettbioadv2.initdata.AllStringInitOperator">
+		<property name="sql"
+			value="insert into bettbio_ad_v2.user_domain_data (id, name, version) values(?,?,1)" />
+		<property name="dataList">
+			<list>
+				<value>UD000001,用户区域</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="operation_role_initor" class="com.skynet.bettbioadv2.initdata.AllStringInitOperator">
+		<property name="sql"
+			value="insert into bettbio_ad_v2.operation_role_data(id,name,description,belongs_to,version) values(?,?,?,?,1)" />
+		<property name="dataList">
+			<list>
+				<value>OR000001,approver,负责审核客户广告内容的百图员工,BC000001</value>
+				<value>OR000002,customer_editor,客户公司负责广告内容编辑的人,BC000001</value>
+				<value>OR000003,internal_editor,负责内部广告内容编辑的百图员工,BC000001</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="operation_role_group_initor" class="com.skynet.bettbioadv2.initdata.AllStringInitOperator">
+		<property name="sql"
+			value="insert into bettbio_ad_v2.operation_role_group_data(id,name,description,belongs_to,version) value(?,?,?,?,1)" />
+		<property name="dataList">
+			<list>
+				<value>ORG000001,super_admin,具备所有权限的角色组,BC000001</value>
+				<value>ORG000002,customer_ad_editor_only,仅能够编辑客户广告的组,BC000001
+				</value>
+				<value>ORG000003,intra_ad_editor_only,仅能够编辑内部广告的组,BC000001</value>
+				<value>ORG000004,approver_only,仅能够审核客户广告的组,BC000001</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="operation_role_in_group_initor" class="com.skynet.bettbioadv2.initdata.AllStringInitOperator">
+		<property name="sql"
+			value="insert into bettbio_ad_v2.operation_role_in_group_data(id,operation_role,operation_role_group,version) value(?,?,?,1)" />
+		<property name="dataList">
+			<list>
+				<value>ORIG000001,OR000001,ORG000001</value>
+				<value>ORIG000002,OR000002,ORG000001</value>
+				<value>ORIG000003,OR000003,ORG000001</value>
+				<value>ORIG000004,OR000001,ORG000004</value>
+				<value>ORIG000005,OR000002,ORG000002</value>
+				<value>ORIG000006,OR000003,ORG000003</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="product_class_initor" class="com.skynet.bettbioadv2.initdata.AllStringInitOperator">
+		<property name="sql"
+			value="insert into bettbio_ad_v2.product_class_data(id,name,description,belongs_to,version) values(?, ?, ?, ?, 1)" />
+		<property name="dataList">
+			<list>
+				<value>PC000001, 初始未确定, 这个产品类型用于初始设定广告内容的相关产品类型\,即为‘还不确定具体的产品类型‘的意思,
+					BC000001
+				</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="knowledge_base_initor" class="com.skynet.bettbioadv2.initdata.AllStringInitOperator">
+		<property name="sql"
+			value="insert into bettbio_ad_v2.bettbio_knowledge_base_data(id,name,belongs_to,version) values(?, ?, ?, 1)" />
+		<property name="dataList">
+			<list>
+				<value>BKB000001, 百图知识库, BC000001</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="location_resource_initor" class="com.skynet.bettbioadv2.initdata.AllStringInitOperator">
+		<property name="sql"
+			value="insert into bettbio_ad_v2.location_resource_data(id,name,belongs_to,version) values(?, ?, ?, 1)" />
+		<property name="dataList">
+			<list>
+				<value>LR000001, 地理位置资源, BKB000001</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="province_resource_initor" class="com.skynet.bettbioadv2.initdata.AllStringInitOperator">
+		<property name="sql"
+			value="insert into bettbio_ad_v2.china_mainland_province_data(id,name,english_name,belongs_to,version) values(?, ?, ?, ?, 1)" />
+		<property name="dataList">
+			<list>
+				<value>CMP000001, 上海, ShangHai, LR000001</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="city_resource_initor" class="com.skynet.bettbioadv2.initdata.AllStringInitOperator">
+		<property name="sql"
+			value="insert into bettbio_ad_v2.china_mainland_city_data(id,name,english_name,province,version) values(?, ?, ?, ?, 1)" />
+		<property name="dataList">
+			<list>
+				<value>CMC000001, 上海, ShangHai, CMP000001</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="external_resource_initor" class="com.skynet.bettbioadv2.initdata.AllStringInitOperator">
+		<property name="sql"
+			value="insert into bettbio_ad_v2.extern_data_resource_data(id,name,belongs_to,version) values(?, ?, ?, 1)" />
+		<property name="dataList">
+			<list>
+				<value>EDR000001, 外部数据资源, BKB000001</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="standard_resource_initor" class="com.skynet.bettbioadv2.initdata.AllStringInitOperator">
+		<property name="sql"
+			value="insert into bettbio_ad_v2.standard_resource_data(id,name,belongs_to,version) values(?, ?, ?, 1)" />
+		<property name="dataList">
+			<list>
+				<value>SR000001, 标准化资源, BKB000001</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="standard_institute_type_initor" class="com.skynet.bettbioadv2.initdata.AllStringInitOperator">
+		<property name="sql"
+			value="insert into bettbio_ad_v2.standard_research_institute_type_data(id,name,belongs_to,version) values(?, ?, ?, 1)" />
+		<property name="dataList">
+			<list>
+				<value>CU_985, 985高校, SR000001</value>
+				<value>CU_211, 211高校, SR000001</value>
+				<value>CU_COMMON, 一般高校, SR000001</value>
+				<value>OTHER_NOT_CU, 其它非高校机构, SR000001</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="standard_institute_name_initor" class="com.skynet.bettbioadv2.initdata.AllStringInitOperator">
+		<property name="sql"
+			value="insert into bettbio_ad_v2.standard_research_institute_name_data(id,name,belongs_to,version) values(?, ?, ?, 1)" />
+		<property name="dataList">
+			<list>
+				<value>SRIN000001,安徽财经大学,SR000001</value>
+				<value>SRIN000002,安徽大学,SR000001</value>
+				<value>SRIN000003,安徽工程大学,SR000001</value>
+				<value>SRIN000004,安徽工业大学,SR000001</value>
+				<value>SRIN000005,安徽科技学院,SR000001</value>
+				<value>SRIN000006,安徽农业大学,SR000001</value>
+				<value>SRIN000007,安徽省林业科学研究院,SR000001</value>
+				<value>SRIN000008,安徽省农业科学院,SR000001</value>
+				<value>SRIN000009,安徽师范大学,SR000001</value>
+				<value>SRIN000010,安徽医科大学,SR000001</value>
+				<value>SRIN000011,安庆师范学院,SR000001</value>
+				<value>SRIN000012,安顺学院,SR000001</value>
+				<value>SRIN000013,安阳工学院,SR000001</value>
+				<value>SRIN000014,鞍山师范学院,SR000001</value>
+				<value>SRIN000015,百色学院,SR000001</value>
+				<value>SRIN000016,蚌埠医学院,SR000001</value>
+				<value>SRIN000017,宝鸡文理学院,SR000001</value>
+				<value>SRIN000018,保定学院,SR000001</value>
+				<value>SRIN000019,保山学院,SR000001</value>
+				<value>SRIN000020,北方工业大学,SR000001</value>
+				<value>SRIN000021,北方民族大学,SR000001</value>
+				<value>SRIN000022,北华大学,SR000001</value>
+				<value>SRIN000023,北京大学,SR000001</value>
+				<value>SRIN000024,北京大学深圳研究生院,SR000001</value>
+				<value>SRIN000025,北京蛋白质组研究中心,SR000001</value>
+				<value>SRIN000026,北京电子科技职业学院,SR000001</value>
+				<value>SRIN000027,北京动物园,SR000001</value>
+				<value>SRIN000028,北京工商大学,SR000001</value>
+				<value>SRIN000029,北京工业大学,SR000001</value>
+				<value>SRIN000030,北京航空航天大学,SR000001</value>
+				<value>SRIN000031,北京化工大学,SR000001</value>
+				<value>SRIN000032,北京回龙观医院,SR000001</value>
+				<value>SRIN000033,北京交通大学,SR000001</value>
+				<value>SRIN000034,北京科技大学,SR000001</value>
+				<value>SRIN000035,北京理工大学,SR000001</value>
+				<value>SRIN000036,北京联合大学,SR000001</value>
+				<value>SRIN000037,北京林业大学,SR000001</value>
+				<value>SRIN000038,北京纳米能源与系统研究所,SR000001</value>
+				<value>SRIN000039,北京农学院,SR000001</value>
+				<value>SRIN000040,北京诺赛基因组研究中心有限公司,SR000001</value>
+				<value>SRIN000041,北京生命科学研究所,SR000001</value>
+				<value>SRIN000042,北京师范大学,SR000001</value>
+				<value>SRIN000043,北京师范大学-香港浸会大学联合国际学院,SR000001</value>
+				<value>SRIN000044,北京师范大学珠海分校,SR000001</value>
+				<value>SRIN000045,北京市创伤骨科研究所,SR000001</value>
+				<value>SRIN000046,北京市辐射中心,SR000001</value>
+				<value>SRIN000047,北京市疾病预防控制中心,SR000001</value>
+				<value>SRIN000048,北京市老年病医疗研究中心,SR000001</value>
+				<value>SRIN000049,北京市农林科学院,SR000001</value>
+				<value>SRIN000050,北京市神经外科研究所,SR000001</value>
+				<value>SRIN000051,北京市眼科研究所,SR000001</value>
+				<value>SRIN000052,北京市预防医学研究中心,SR000001</value>
+				<value>SRIN000053,北京市园林科学研究所,SR000001</value>
+				<value>SRIN000054,北京市园林科学研究院,SR000001</value>
+				<value>SRIN000055,北京市植物园,SR000001</value>
+				<value>SRIN000056,北京市肿瘤防治研究所,SR000001</value>
+				<value>SRIN000057,北京体育大学,SR000001</value>
+				<value>SRIN000058,北京王府中西医结合医院,SR000001</value>
+				<value>SRIN000059,北京物资学院,SR000001</value>
+				<value>SRIN000060,北京医院,SR000001</value>
+				<value>SRIN000061,北京印刷学院,SR000001</value>
+				<value>SRIN000062,北京邮电大学,SR000001</value>
+				<value>SRIN000063,北京中医药大学,SR000001</value>
+				<value>SRIN000064,北京自然博物馆,SR000001</value>
+				<value>SRIN000065,滨州学院,SR000001</value>
+				<value>SRIN000066,滨州医学院,SR000001</value>
+				<value>SRIN000067,渤海大学,SR000001</value>
+				<value>SRIN000068,长安大学,SR000001</value>
+				<value>SRIN000069,长白山科学研究院,SR000001</value>
+				<value>SRIN000070,长春大学,SR000001</value>
+				<value>SRIN000071,长春工业大学,SR000001</value>
+				<value>SRIN000072,长春理工大学,SR000001</value>
+				<value>SRIN000073,长春师范大学,SR000001</value>
+				<value>SRIN000074,长春师范学院,SR000001</value>
+				<value>SRIN000075,长春中医药大学,SR000001</value>
+				<value>SRIN000076,长江大学,SR000001</value>
+				<value>SRIN000077,长江师范学院,SR000001</value>
+				<value>SRIN000078,长沙理工大学,SR000001</value>
+				<value>SRIN000079,长沙学院,SR000001</value>
+				<value>SRIN000080,长沙医学院,SR000001</value>
+				<value>SRIN000081,长治学院,SR000001</value>
+				<value>SRIN000082,常熟理工学院,SR000001</value>
+				<value>SRIN000083,常州大学,SR000001</value>
+				<value>SRIN000084,成都大熊猫繁育研究基地,SR000001</value>
+				<value>SRIN000085,成都大学,SR000001</value>
+				<value>SRIN000086,成都军区疾病预防控制中心军事医学研究所,SR000001</value>
+				<value>SRIN000087,成都军区昆明总医院,SR000001</value>
+				<value>SRIN000088,成都理工大学,SR000001</value>
+				<value>SRIN000089,成都体育学院,SR000001</value>
+				<value>SRIN000090,成都医学院,SR000001</value>
+				<value>SRIN000091,承德医学院,SR000001</value>
+				<value>SRIN000092,赤峰学院,SR000001</value>
+				<value>SRIN000093,滁州学院,SR000001</value>
+				<value>SRIN000094,楚雄师范学院,SR000001</value>
+				<value>SRIN000095,川北医学院,SR000001</value>
+				<value>SRIN000096,大理大学,SR000001</value>
+				<value>SRIN000097,大连大学,SR000001</value>
+				<value>SRIN000098,大连工业大学,SR000001</value>
+				<value>SRIN000099,大连海事大学,SR000001</value>
+				<value>SRIN000100,大连海洋大学,SR000001</value>
+				<value>SRIN000101,大连理工大学,SR000001</value>
+				<value>SRIN000102,大连民族大学,SR000001</value>
+				<value>SRIN000103,大连民族学院,SR000001</value>
+				<value>SRIN000104,大连市第三人民医院,SR000001</value>
+				<value>SRIN000105,大连市疾病预防控制中心,SR000001</value>
+				<value>SRIN000106,大连市农业科学研究院,SR000001</value>
+				<value>SRIN000107,大连医科大学,SR000001</value>
+				<value>SRIN000108,大庆师范学院,SR000001</value>
+				<value>SRIN000109,德州学院,SR000001</value>
+				<value>SRIN000110,电子科技大学,SR000001</value>
+				<value>SRIN000111,电子科技大学中山学院,SR000001</value>
+				<value>SRIN000112,定西市人民医院,SR000001</value>
+				<value>SRIN000113,东北大学,SR000001</value>
+				<value>SRIN000114,东北电力大学,SR000001</value>
+				<value>SRIN000115,东北林业大学,SR000001</value>
+				<value>SRIN000116,东北农业大学,SR000001</value>
+				<value>SRIN000117,东北师范大学,SR000001</value>
+				<value>SRIN000118,东华大学,SR000001</value>
+				<value>SRIN000119,东华理工大学,SR000001</value>
+				<value>SRIN000120,东南大学,SR000001</value>
+				<value>SRIN000121,东莞理工学院,SR000001</value>
+				<value>SRIN000122,对外经济贸易大学,SR000001</value>
+				<value>SRIN000123,敦煌研究院,SR000001</value>
+				<value>SRIN000124,恩施土家族苗族自治州农业科学院,SR000001</value>
+				<value>SRIN000125,佛山科学技术学院,SR000001</value>
+				<value>SRIN000126,福建出入境检验检疫局检验检疫技术中心,SR000001</value>
+				<value>SRIN000127,福建农林大学,SR000001</value>
+				<value>SRIN000128,福建省立医院,SR000001</value>
+				<value>SRIN000129,福建省林业科学研究院,SR000001</value>
+				<value>SRIN000130,福建省农业科学院,SR000001</value>
+				<value>SRIN000131,福建省轻工业研究所,SR000001</value>
+				<value>SRIN000132,福建省亚热带植物研究所,SR000001</value>
+				<value>SRIN000133,福建省肿瘤医院,SR000001</value>
+				<value>SRIN000134,福建师范大学,SR000001</value>
+				<value>SRIN000135,福建医科大学,SR000001</value>
+				<value>SRIN000136,福建中医药大学,SR000001</value>
+				<value>SRIN000137,福州大学,SR000001</value>
+				<value>SRIN000138,阜阳师范学院,SR000001</value>
+				<value>SRIN000139,复旦大学,SR000001</value>
+				<value>SRIN000140,甘肃民族师范学院,SR000001</value>
+				<value>SRIN000141,甘肃农业大学,SR000001</value>
+				<value>SRIN000142,甘肃省科学院,SR000001</value>
+				<value>SRIN000143,甘肃省科学院生物研究所,SR000001</value>
+				<value>SRIN000144,甘肃省林业科学研究院,SR000001</value>
+				<value>SRIN000145,甘肃省农业工程技术研究院,SR000001</value>
+				<value>SRIN000146,甘肃省农业科学院,SR000001</value>
+				<value>SRIN000147,甘肃省祁连山水源涵养林研究院,SR000001</value>
+				<value>SRIN000148,甘肃省人民医院,SR000001</value>
+				<value>SRIN000149,甘肃省水产研究所,SR000001</value>
+				<value>SRIN000150,甘肃省医学科学研究院,SR000001</value>
+				<value>SRIN000151,甘肃省治沙研究所,SR000001</value>
+				<value>SRIN000152,甘肃省中医院,SR000001</value>
+				<value>SRIN000153,甘肃政法学院,SR000001</value>
+				<value>SRIN000154,甘肃中医药大学,SR000001</value>
+				<value>SRIN000155,赣南师范学院,SR000001</value>
+				<value>SRIN000156,赣南医学院,SR000001</value>
+				<value>SRIN000157,广东财经大学,SR000001</value>
+				<value>SRIN000158,广东出入境检验检疫局检验检疫技术中心,SR000001</value>
+				<value>SRIN000159,广东第二师范学院,SR000001</value>
+				<value>SRIN000160,广东工业大学,SR000001</value>
+				<value>SRIN000161,广东海洋大学,SR000001</value>
+				<value>SRIN000162,广东警官学院,SR000001</value>
+				<value>SRIN000163,广东轻工职业技术学院,SR000001</value>
+				<value>SRIN000164,广东省第二人民医院,SR000001</value>
+				<value>SRIN000165,广东省环境科学研究院,SR000001</value>
+				<value>SRIN000166,广东省昆虫研究所,SR000001</value>
+				<value>SRIN000167,广东省林业科学研究院,SR000001</value>
+				<value>SRIN000168,广东省农业科学院,SR000001</value>
+				<value>SRIN000169,广东省农业科学院蚕业与农产品加工研究所,SR000001</value>
+				<value>SRIN000170,广东省农业科学院茶叶研究所,SR000001</value>
+				<value>SRIN000171,广东省农业科学院动物科学研究所,SR000001</value>
+				<value>SRIN000172,广东省农业科学院动物卫生研究所,SR000001</value>
+				<value>SRIN000173,广东省农业科学院果树研究所,SR000001</value>
+				<value>SRIN000174,广东省农业科学院环境园艺研究所,SR000001</value>
+				<value>SRIN000175,广东省农业科学院农业生物基因研究中心,SR000001</value>
+				<value>SRIN000176,广东省农业科学院农业资源与环境研究所,SR000001</value>
+				<value>SRIN000177,广东省农业科学院蔬菜研究所,SR000001</value>
+				<value>SRIN000178,广东省农业科学院水稻研究所,SR000001</value>
+				<value>SRIN000179,广东省农业科学院饮用植物研究所,SR000001</value>
+				<value>SRIN000180,广东省农业科学院植物保护研究所,SR000001</value>
+				<value>SRIN000181,广东省农业科学院作物研究所,SR000001</value>
+				<value>SRIN000182,广东省人民医院,SR000001</value>
+				<value>SRIN000183,广东省生态环境与土壤研究所,SR000001</value>
+				<value>SRIN000184,广东省实验动物监测所,SR000001</value>
+				<value>SRIN000185,广东省微生物研究所,SR000001</value>
+				<value>SRIN000186,广东石油化工学院,SR000001</value>
+				<value>SRIN000187,广东食品药品职业学院,SR000001</value>
+				<value>SRIN000188,广东外语外贸大学,SR000001</value>
+				<value>SRIN000189,广东药学院,SR000001</value>
+				<value>SRIN000190,广东医学院,SR000001</value>
+				<value>SRIN000191,广西大学,SR000001</value>
+				<value>SRIN000192,广西工学院,SR000001</value>
+				<value>SRIN000193,广西科技大学,SR000001</value>
+				<value>SRIN000194,广西科学院,SR000001</value>
+				<value>SRIN000195,广西民族大学,SR000001</value>
+				<value>SRIN000196,广西师范大学,SR000001</value>
+				<value>SRIN000197,广西师范学院,SR000001</value>
+				<value>SRIN000198,广西医科大学,SR000001</value>
+				<value>SRIN000199,广西中医药大学,SR000001</value>
+				<value>SRIN000200,广西壮族自治区蚕业科学研究院,SR000001</value>
+				<value>SRIN000201,广西壮族自治区动物疫病预防控制中心,SR000001</value>
+				<value>SRIN000202,广西壮族自治区甘蔗研究所,SR000001</value>
+				<value>SRIN000203,广西壮族自治区柑桔研究所,SR000001</value>
+				<value>SRIN000204,广西壮族自治区疾病预防控制中心,SR000001</value>
+				<value>SRIN000205,广西壮族自治区林业科学研究院,SR000001</value>
+				<value>SRIN000206,广西壮族自治区农业科学院,SR000001</value>
+				<value>SRIN000207,广西壮族自治区农业科学院玉米研究所,SR000001</value>
+				<value>SRIN000208,广西壮族自治区人民医院,SR000001</value>
+				<value>SRIN000209,广西壮族自治区兽医研究所,SR000001</value>
+				<value>SRIN000210,广西壮族自治区水产科学研究院,SR000001</value>
+				<value>SRIN000211,广西壮族自治区水产研究所,SR000001</value>
+				<value>SRIN000212,广西壮族自治区水牛研究所,SR000001</value>
+				<value>SRIN000213,广西壮族自治区畜牧研究所,SR000001</value>
+				<value>SRIN000214,广西壮族自治区亚热带作物研究所,SR000001</value>
+				<value>SRIN000215,广西壮族自治区药用植物园,SR000001</value>
+				<value>SRIN000216,广西壮族自治区中国科学院广西植物研究所,SR000001</value>
+				<value>SRIN000217,广州大学,SR000001</value>
+				<value>SRIN000218,广州地理研究所,SR000001</value>
+				<value>SRIN000219,广州甘蔗糖业研究所,SR000001</value>
+				<value>SRIN000220,广州军区广州总医院,SR000001</value>
+				<value>SRIN000221,广州市香港科大霍英东研究院,SR000001</value>
+				<value>SRIN000222,广州体育学院,SR000001</value>
+				<value>SRIN000223,广州医科大学,SR000001</value>
+				<value>SRIN000224,广州医学院,SR000001</value>
+				<value>SRIN000225,广州中国科学院先进技术研究所,SR000001</value>
+				<value>SRIN000226,广州中医药大学,SR000001</value>
+				<value>SRIN000227,贵阳学院,SR000001</value>
+				<value>SRIN000228,贵阳中医学院,SR000001</value>
+				<value>SRIN000229,贵州大学,SR000001</value>
+				<value>SRIN000230,贵州工程应用技术学院,SR000001</value>
+				<value>SRIN000231,贵州科学院,SR000001</value>
+				<value>SRIN000232,贵州民族大学,SR000001</value>
+				<value>SRIN000233,贵州省疾病预防控制中心,SR000001</value>
+				<value>SRIN000234,贵州省林业科学研究院,SR000001</value>
+				<value>SRIN000235,贵州省农业科学院,SR000001</value>
+				<value>SRIN000236,贵州省人民医院,SR000001</value>
+				<value>SRIN000237,贵州省烟草科学研究院,SR000001</value>
+				<value>SRIN000238,贵州省植物保护研究所,SR000001</value>
+				<value>SRIN000239,贵州省中国科学院天然产物化学重点实验室,SR000001</value>
+				<value>SRIN000240,贵州师范大学,SR000001</value>
+				<value>SRIN000241,贵州师范学院,SR000001</value>
+				<value>SRIN000242,贵州医科大学,SR000001</value>
+				<value>SRIN000243,桂林电子科技大学,SR000001</value>
+				<value>SRIN000244,桂林理工大学,SR000001</value>
+				<value>SRIN000245,桂林医学院,SR000001</value>
+				<value>SRIN000246,国际竹藤中心,SR000001</value>
+				<value>SRIN000247,国家海洋环境监测中心,SR000001</value>
+				<value>SRIN000248,国家海洋局北海环境监测中心,SR000001</value>
+				<value>SRIN000249,国家海洋局第二海洋研究所,SR000001</value>
+				<value>SRIN000250,国家海洋局第三海洋研究所,SR000001</value>
+				<value>SRIN000251,国家海洋局第一海洋研究所,SR000001</value>
+				<value>SRIN000252,国家海洋局南海海洋工程勘察与环境研究院,SR000001</value>
+				<value>SRIN000253,国家粮食局科学研究院,SR000001</value>
+				<value>SRIN000254,国家林业局桉树研究开发中心,SR000001</value>
+				<value>SRIN000255,国家林业局北京林业机械研究所,SR000001</value>
+				<value>SRIN000256,国家林业局调查规划设计院,SR000001</value>
+				<value>SRIN000257,国家林业局泡桐研究开发中心,SR000001</value>
+				<value>SRIN000258,国家林业局森林病虫害防治总站,SR000001</value>
+				<value>SRIN000259,国家林业局竹子研究开发中心,SR000001</value>
+				<value>SRIN000260,国家纳米技术与工程研究院,SR000001</value>
+				<value>SRIN000261,国家纳米科学中心,SR000001</value>
+				<value>SRIN000262,国家气候中心,SR000001</value>
+				<value>SRIN000263,国家人口计生委科学技术研究所,SR000001</value>
+				<value>SRIN000264,国家食品安全风险评估中心,SR000001</value>
+				<value>SRIN000265,国家体育总局反兴奋剂中心,SR000001</value>
+				<value>SRIN000266,国家体育总局体育科学研究所,SR000001</value>
+				<value>SRIN000267,国家体育总局运动医学研究所,SR000001</value>
+				<value>SRIN000268,国家卫星气象中心,SR000001</value>
+				<value>SRIN000269,国家心血管病中心,SR000001</value>
+				<value>SRIN000270,国家新药筛选中心,SR000001</value>
+				<value>SRIN000271,哈尔滨工业大学,SR000001</value>
+				<value>SRIN000272,哈尔滨商业大学,SR000001</value>
+				<value>SRIN000273,哈尔滨师范大学,SR000001</value>
+				<value>SRIN000274,哈尔滨医科大学,SR000001</value>
+				<value>SRIN000275,海南大学,SR000001</value>
+				<value>SRIN000276,海南省海洋与渔业科学院,SR000001</value>
+				<value>SRIN000277,海南省农业科学院,SR000001</value>
+				<value>SRIN000278,海南省人民医院,SR000001</value>
+				<value>SRIN000279,海南师范大学,SR000001</value>
+				<value>SRIN000280,海南医学院,SR000001</value>
+				<value>SRIN000281,韩山师范学院,SR000001</value>
+				<value>SRIN000282,杭州电子科技大学,SR000001</value>
+				<value>SRIN000283,杭州师范大学,SR000001</value>
+				<value>SRIN000284,杭州市疾病预防控制中心,SR000001</value>
+				<value>SRIN000285,杭州市农业科学研究院,SR000001</value>
+				<value>SRIN000286,杭州植物园,SR000001</value>
+				<value>SRIN000287,合肥工业大学,SR000001</value>
+				<value>SRIN000288,合肥师范学院,SR000001</value>
+				<value>SRIN000289,河北北方学院,SR000001</value>
+				<value>SRIN000290,河北大学,SR000001</value>
+				<value>SRIN000291,河北工程大学,SR000001</value>
+				<value>SRIN000292,河北工业大学,SR000001</value>
+				<value>SRIN000293,河北经贸大学,SR000001</value>
+				<value>SRIN000294,河北科技大学,SR000001</value>
+				<value>SRIN000295,河北科技师范学院,SR000001</value>
+				<value>SRIN000296,河北联合大学,SR000001</value>
+				<value>SRIN000297,河北农业大学,SR000001</value>
+				<value>SRIN000298,河北省科学院地理科学研究所,SR000001</value>
+				<value>SRIN000299,河北省科学院生物研究所,SR000001</value>
+				<value>SRIN000300,河北省农林科学院,SR000001</value>
+				<value>SRIN000301,河北省农林科学院昌黎果树研究所,SR000001</value>
+				<value>SRIN000302,河北省农林科学院谷子研究所,SR000001</value>
+				<value>SRIN000303,河北省农林科学院粮油作物研究所,SR000001</value>
+				<value>SRIN000304,河北省农林科学院遗传生理研究所,SR000001</value>
+				<value>SRIN000305,河北省农林科学院植物保护研究所,SR000001</value>
+				<value>SRIN000306,河北省食品质量监督检验研究院,SR000001</value>
+				<value>SRIN000307,河北师范大学,SR000001</value>
+				<value>SRIN000308,河北医科大学,SR000001</value>
+				<value>SRIN000309,河北中医学院,SR000001</value>
+				<value>SRIN000310,河池学院,SR000001</value>
+				<value>SRIN000311,河海大学,SR000001</value>
+				<value>SRIN000312,河南财经政法大学,SR000001</value>
+				<value>SRIN000313,河南城建学院,SR000001</value>
+				<value>SRIN000314,河南大学,SR000001</value>
+				<value>SRIN000315,河南工业大学,SR000001</value>
+				<value>SRIN000316,河南教育学院,SR000001</value>
+				<value>SRIN000317,河南科技大学,SR000001</value>
+				<value>SRIN000318,河南科技学院,SR000001</value>
+				<value>SRIN000319,河南理工大学,SR000001</value>
+				<value>SRIN000320,河南牧业经济学院,SR000001</value>
+				<value>SRIN000321,河南农业大学,SR000001</value>
+				<value>SRIN000322,河南省科学院高新技术研究中心,SR000001</value>
+				<value>SRIN000323,河南省农业科学院,SR000001</value>
+				<value>SRIN000324,河南省气象科学研究所,SR000001</value>
+				<value>SRIN000325,河南师范大学,SR000001</value>
+				<value>SRIN000326,河南中医学院,SR000001</value>
+				<value>SRIN000327,河套学院,SR000001</value>
+				<value>SRIN000328,河西学院,SR000001</value>
+				<value>SRIN000329,菏泽学院,SR000001</value>
+				<value>SRIN000330,贺州学院,SR000001</value>
+				<value>SRIN000331,黑龙江八一农垦大学,SR000001</value>
+				<value>SRIN000332,黑龙江大学,SR000001</value>
+				<value>SRIN000333,黑龙江省科学院高技术研究院,SR000001</value>
+				<value>SRIN000334,黑龙江省科学院微生物研究所,SR000001</value>
+				<value>SRIN000335,黑龙江省科学院自然与生态研究所,SR000001</value>
+				<value>SRIN000336,黑龙江省林业科学院,SR000001</value>
+				<value>SRIN000337,黑龙江省农业科学院,SR000001</value>
+				<value>SRIN000338,黑龙江中医药大学,SR000001</value>
+				<value>SRIN000339,衡水学院,SR000001</value>
+				<value>SRIN000340,衡阳师范学院,SR000001</value>
+				<value>SRIN000341,红河学院,SR000001</value>
+				<value>SRIN000342,呼伦贝尔学院,SR000001</value>
+				<value>SRIN000343,湖北大学,SR000001</value>
+				<value>SRIN000344,湖北第二师范学院,SR000001</value>
+				<value>SRIN000345,湖北工程学院,SR000001</value>
+				<value>SRIN000346,湖北工业大学,SR000001</value>
+				<value>SRIN000347,湖北科技学院,SR000001</value>
+				<value>SRIN000348,湖北民族学院,SR000001</value>
+				<value>SRIN000349,湖北省林业科学研究院,SR000001</value>
+				<value>SRIN000350,湖北省农业科学院,SR000001</value>
+				<value>SRIN000351,湖北师范学院,SR000001</value>
+				<value>SRIN000352,湖北文理学院,SR000001</value>
+				<value>SRIN000353,湖北医药学院,SR000001</value>
+				<value>SRIN000354,湖北中医药大学,SR000001</value>
+				<value>SRIN000355,湖南城市学院,SR000001</value>
+				<value>SRIN000356,湖南大学,SR000001</value>
+				<value>SRIN000357,湖南第一师范学院,SR000001</value>
+				<value>SRIN000358,湖南工业大学,SR000001</value>
+				<value>SRIN000359,湖南科技大学,SR000001</value>
+				<value>SRIN000360,湖南科技学院,SR000001</value>
+				<value>SRIN000361,湖南理工学院,SR000001</value>
+				<value>SRIN000362,湖南农业大学,SR000001</value>
+				<value>SRIN000363,湖南人文科技学院,SR000001</value>
+				<value>SRIN000364,湖南省儿童医院,SR000001</value>
+				<value>SRIN000365,湖南省林业科学院,SR000001</value>
+				<value>SRIN000366,湖南省农业科学院,SR000001</value>
+				<value>SRIN000367,湖南省气象科学研究所,SR000001</value>
+				<value>SRIN000368,湖南省人民医院,SR000001</value>
+				<value>SRIN000369,湖南省体育科学研究所,SR000001</value>
+				<value>SRIN000370,湖南省微生物研究所,SR000001</value>
+				<value>SRIN000371,湖南省微生物研究院,SR000001</value>
+				<value>SRIN000372,湖南省畜牧兽医研究所,SR000001</value>
+				<value>SRIN000373,湖南师范大学,SR000001</value>
+				<value>SRIN000374,湖南文理学院,SR000001</value>
+				<value>SRIN000375,湖南杂交水稻研究中心,SR000001</value>
+				<value>SRIN000376,湖南中医药大学,SR000001</value>
+				<value>SRIN000377,湖州师范学院,SR000001</value>
+				<value>SRIN000378,湖州市中心医院,SR000001</value>
+				<value>SRIN000379,华北理工大学,SR000001</value>
+				<value>SRIN000380,华北水利水电大学,SR000001</value>
+				<value>SRIN000381,华北水利水电学院,SR000001</value>
+				<value>SRIN000382,华东交通大学,SR000001</value>
+				<value>SRIN000383,华东理工大学,SR000001</value>
+				<value>SRIN000384,华东师范大学,SR000001</value>
+				<value>SRIN000385,华南理工大学,SR000001</value>
+				<value>SRIN000386,华南农业大学,SR000001</value>
+				<value>SRIN000387,华南师范大学,SR000001</value>
+				<value>SRIN000388,华侨大学,SR000001</value>
+				<value>SRIN000389,华中科技大学,SR000001</value>
+				<value>SRIN000390,华中农业大学,SR000001</value>
+				<value>SRIN000391,华中师范大学,SR000001</value>
+				<value>SRIN000392,怀化学院,SR000001</value>
+				<value>SRIN000393,淮北师范大学,SR000001</value>
+				<value>SRIN000394,淮海工学院,SR000001</value>
+				<value>SRIN000395,淮南师范学院,SR000001</value>
+				<value>SRIN000396,淮阴工学院,SR000001</value>
+				<value>SRIN000397,淮阴师范学院,SR000001</value>
+				<value>SRIN000398,环境保护部南京环境科学研究所,SR000001</value>
+				<value>SRIN000399,黄冈师范学院,SR000001</value>
+				<value>SRIN000400,黄河科技学院,SR000001</value>
+				<value>SRIN000401,黄淮学院,SR000001</value>
+				<value>SRIN000402,黄山学院,SR000001</value>
+				<value>SRIN000403,惠州学院,SR000001</value>
+				<value>SRIN000404,吉林出入境检验检疫局检验检疫技术中心,SR000001</value>
+				<value>SRIN000405,吉林大学,SR000001</value>
+				<value>SRIN000406,吉林建筑工程学院,SR000001</value>
+				<value>SRIN000407,吉林农业大学,SR000001</value>
+				<value>SRIN000408,吉林农业科技学院,SR000001</value>
+				<value>SRIN000409,吉林省林业科学研究院,SR000001</value>
+				<value>SRIN000410,吉林省农业科学院,SR000001</value>
+				<value>SRIN000411,吉林省畜牧兽医科学研究院,SR000001</value>
+				<value>SRIN000412,吉林省养蜂科学研究所,SR000001</value>
+				<value>SRIN000413,吉林省中医药科学院,SR000001</value>
+				<value>SRIN000414,吉林师范大学,SR000001</value>
+				<value>SRIN000415,吉林医药学院,SR000001</value>
+				<value>SRIN000416,吉首大学,SR000001</value>
+				<value>SRIN000417,集美大学,SR000001</value>
+				<value>SRIN000418,集宁师范学院,SR000001</value>
+				<value>SRIN000419,济南大学,SR000001</value>
+				<value>SRIN000420,济宁学院,SR000001</value>
+				<value>SRIN000421,济宁医学院,SR000001</value>
+				<value>SRIN000422,暨南大学,SR000001</value>
+				<value>SRIN000423,佳木斯大学,SR000001</value>
+				<value>SRIN000424,嘉兴学院,SR000001</value>
+				<value>SRIN000425,江汉大学,SR000001</value>
+				<value>SRIN000426,江南大学,SR000001</value>
+				<value>SRIN000427,江苏大学,SR000001</value>
+				<value>SRIN000428,江苏第二师范学院,SR000001</value>
+				<value>SRIN000429,江苏教育学院,SR000001</value>
+				<value>SRIN000430,江苏科技大学,SR000001</value>
+				<value>SRIN000431,江苏里下河地区农业科学研究所,SR000001</value>
+				<value>SRIN000432,江苏理工学院,SR000001</value>
+				<value>SRIN000433,江苏农牧科技职业学院,SR000001</value>
+				<value>SRIN000434,江苏丘陵地区镇江农业科学研究所,SR000001</value>
+				<value>SRIN000435,江苏省海洋水产研究所,SR000001</value>
+				<value>SRIN000436,江苏省环境科学研究院,SR000001</value>
+				<value>SRIN000437,江苏省疾病预防控制中心,SR000001</value>
+				<value>SRIN000438,江苏省家禽科学研究所,SR000001</value>
+				<value>SRIN000439,江苏省检验检疫科学技术研究院,SR000001</value>
+				<value>SRIN000440,江苏省林业科学研究院,SR000001</value>
+				<value>SRIN000441,江苏省农业科学院,SR000001</value>
+				<value>SRIN000442,江苏省水利科学研究院,SR000001</value>
+				<value>SRIN000443,江苏省血吸虫病防治研究所,SR000001</value>
+				<value>SRIN000444,江苏省原子医学研究所,SR000001</value>
+				<value>SRIN000445,江苏省中国科学院植物研究所,SR000001</value>
+				<value>SRIN000446,江苏师范大学,SR000001</value>
+				<value>SRIN000447,江苏徐州甘薯研究中心,SR000001</value>
+				<value>SRIN000448,江苏畜牧兽医职业技术学院,SR000001</value>
+				<value>SRIN000449,江苏沿江地区农业科学研究所,SR000001</value>
+				<value>SRIN000450,江西财经大学,SR000001</value>
+				<value>SRIN000451,江西科技师范大学,SR000001</value>
+				<value>SRIN000452,江西理工大学,SR000001</value>
+				<value>SRIN000453,江西农业大学,SR000001</value>
+				<value>SRIN000454,江西省、中国科学院庐山植物园,SR000001</value>
+				<value>SRIN000455,江西省儿童医院,SR000001</value>
+				<value>SRIN000456,江西省环境保护科学研究院,SR000001</value>
+				<value>SRIN000457,江西省科学院,SR000001</value>
+				<value>SRIN000458,江西省林业科学院,SR000001</value>
+				<value>SRIN000459,江西省农业科学院,SR000001</value>
+				<value>SRIN000460,江西省人民医院,SR000001</value>
+				<value>SRIN000461,江西省水利科学研究院,SR000001</value>
+				<value>SRIN000462,江西师范大学,SR000001</value>
+				<value>SRIN000463,江西中医学院,SR000001</value>
+				<value>SRIN000464,江西中医药大学,SR000001</value>
+				<value>SRIN000465,金华职业技术学院,SR000001</value>
+				<value>SRIN000466,金陵科技学院,SR000001</value>
+				<value>SRIN000467,晋中学院,SR000001</value>
+				<value>SRIN000468,荆楚理工学院,SR000001</value>
+				<value>SRIN000469,井冈山大学,SR000001</value>
+				<value>SRIN000470,景德镇陶瓷学院,SR000001</value>
+				<value>SRIN000471,九江学院,SR000001</value>
+				<value>SRIN000472,喀什大学,SR000001</value>
+				<value>SRIN000473,喀什师范学院,SR000001</value>
+				<value>SRIN000474,凯里学院,SR000001</value>
+				<value>SRIN000475,昆明理工大学,SR000001</value>
+				<value>SRIN000476,昆明市第一人民医院,SR000001</value>
+				<value>SRIN000477,昆明学院,SR000001</value>
+				<value>SRIN000478,昆明医科大学,SR000001</value>
+				<value>SRIN000479,兰州城市学院,SR000001</value>
+				<value>SRIN000480,兰州大学,SR000001</value>
+				<value>SRIN000481,兰州交通大学,SR000001</value>
+				<value>SRIN000482,兰州理工大学,SR000001</value>
+				<value>SRIN000483,兰州石化职业技术学院,SR000001</value>
+				<value>SRIN000484,廊坊师范学院,SR000001</value>
+				<value>SRIN000485,乐山师范学院,SR000001</value>
+				<value>SRIN000486,丽水市农业科学研究院,SR000001</value>
+				<value>SRIN000487,丽水学院,SR000001</value>
+				<value>SRIN000488,辽宁大学,SR000001</value>
+				<value>SRIN000489,辽宁工程技术大学,SR000001</value>
+				<value>SRIN000490,辽宁省海洋水产科学研究院,SR000001</value>
+				<value>SRIN000491,辽宁省林业科学研究院,SR000001</value>
+				<value>SRIN000492,辽宁省农业科学院,SR000001</value>
+				<value>SRIN000493,辽宁师范大学,SR000001</value>
+				<value>SRIN000494,辽宁石油化工大学,SR000001</value>
+				<value>SRIN000495,辽宁医学院,SR000001</value>
+				<value>SRIN000496,聊城大学,SR000001</value>
+				<value>SRIN000497,临沂大学,SR000001</value>
+				<value>SRIN000498,岭南师范学院,SR000001</value>
+				<value>SRIN000499,六盘水师范学院,SR000001</value>
+				<value>SRIN000500,龙岩学院,SR000001</value>
+				<value>SRIN000501,陇东学院,SR000001</value>
+				<value>SRIN000502,鲁东大学,SR000001</value>
+				<value>SRIN000503,洛阳理工学院,SR000001</value>
+				<value>SRIN000504,洛阳师范学院,SR000001</value>
+				<value>SRIN000505,绵阳师范学院,SR000001</value>
+				<value>SRIN000506,闽江学院,SR000001</value>
+				<value>SRIN000507,闽南师范大学,SR000001</value>
+				<value>SRIN000508,牡丹江医学院,SR000001</value>
+				<value>SRIN000509,内江师范学院,SR000001</value>
+				<value>SRIN000510,内蒙古大学,SR000001</value>
+				<value>SRIN000511,内蒙古工业大学,SR000001</value>
+				<value>SRIN000512,内蒙古科技大学,SR000001</value>
+				<value>SRIN000513,内蒙古科技大学包头师范学院,SR000001</value>
+				<value>SRIN000514,内蒙古科技大学包头医学院,SR000001</value>
+				<value>SRIN000515,内蒙古民族大学,SR000001</value>
+				<value>SRIN000516,内蒙古农业大学,SR000001</value>
+				<value>SRIN000517,内蒙古师范大学,SR000001</value>
+				<value>SRIN000518,内蒙古医科大学,SR000001</value>
+				<value>SRIN000519,内蒙古自治区林业科学研究院,SR000001</value>
+				<value>SRIN000520,内蒙古自治区农牧业科学院,SR000001</value>
+				<value>SRIN000521,内蒙古自治区气象科学研究所,SR000001</value>
+				<value>SRIN000522,内蒙古自治区人民医院,SR000001</value>
+				<value>SRIN000523,奈曼旗扶贫开发领导小组办公室,SR000001</value>
+				<value>SRIN000524,南昌大学,SR000001</value>
+				<value>SRIN000525,南昌工程学院,SR000001</value>
+				<value>SRIN000526,南昌师范学院,SR000001</value>
+				<value>SRIN000527,南方科技大学,SR000001</value>
+				<value>SRIN000528,南方医科大学,SR000001</value>
+				<value>SRIN000529,南华大学,SR000001</value>
+				<value>SRIN000530,南京财经大学,SR000001</value>
+				<value>SRIN000531,南京大学,SR000001</value>
+				<value>SRIN000532,南京工程学院,SR000001</value>
+				<value>SRIN000533,南京工业大学,SR000001</value>
+				<value>SRIN000534,南京航空航天大学,SR000001</value>
+				<value>SRIN000535,南京理工大学,SR000001</value>
+				<value>SRIN000536,南京林业大学,SR000001</value>
+				<value>SRIN000537,南京农业大学,SR000001</value>
+				<value>SRIN000538,南京森林警察学院,SR000001</value>
+				<value>SRIN000539,南京师范大学,SR000001</value>
+				<value>SRIN000540,南京市产品质量监督检验院,SR000001</value>
+				<value>SRIN000541,南京市蔬菜科学研究所,SR000001</value>
+				<value>SRIN000542,南京体育学院,SR000001</value>
+				<value>SRIN000543,南京晓庄学院,SR000001</value>
+				<value>SRIN000544,南京信息工程大学,SR000001</value>
+				<value>SRIN000545,南京医科大学,SR000001</value>
+				<value>SRIN000546,南京邮电大学,SR000001</value>
+				<value>SRIN000547,南京中医药大学,SR000001</value>
+				<value>SRIN000548,南开大学,SR000001</value>
+				<value>SRIN000549,南通大学,SR000001</value>
+				<value>SRIN000550,南阳理工学院,SR000001</value>
+				<value>SRIN000551,南阳师范学院,SR000001</value>
+				<value>SRIN000552,宁波大学,SR000001</value>
+				<value>SRIN000553,宁波市农业科学研究院,SR000001</value>
+				<value>SRIN000554,宁波市微循环与莨菪类药研究所,SR000001</value>
+				<value>SRIN000555,宁波市医疗中心李惠利医院,SR000001</value>
+				<value>SRIN000556,宁德师范学院,SR000001</value>
+				<value>SRIN000557,宁夏大学,SR000001</value>
+				<value>SRIN000558,宁夏回族自治区气象科学研究所,SR000001</value>
+				<value>SRIN000559,宁夏回族自治区人民医院,SR000001</value>
+				<value>SRIN000560,宁夏回族自治区水产研究所,SR000001</value>
+				<value>SRIN000561,宁夏农林科学院,SR000001</value>
+				<value>SRIN000562,宁夏医科大学,SR000001</value>
+				<value>SRIN000563,农业部规划设计研究院,SR000001</value>
+				<value>SRIN000564,农业部环境保护科研监测所,SR000001</value>
+				<value>SRIN000565,农业部南京农业机械化研究所,SR000001</value>
+				<value>SRIN000566,农业部农药检定所,SR000001</value>
+				<value>SRIN000567,农业部沼气科学研究所,SR000001</value>
+				<value>SRIN000568,平顶山学院,SR000001</value>
+				<value>SRIN000569,莆田学院,SR000001</value>
+				<value>SRIN000570,普洱学院,SR000001</value>
+				<value>SRIN000571,齐鲁工业大学,SR000001</value>
+				<value>SRIN000572,齐鲁师范学院,SR000001</value>
+				<value>SRIN000573,齐齐哈尔大学,SR000001</value>
+				<value>SRIN000574,齐齐哈尔医学院,SR000001</value>
+				<value>SRIN000575,黔南民族师范学院,SR000001</value>
+				<value>SRIN000576,钦州学院,SR000001</value>
+				<value>SRIN000577,青岛大学,SR000001</value>
+				<value>SRIN000578,青岛科技大学,SR000001</value>
+				<value>SRIN000579,青岛理工大学,SR000001</value>
+				<value>SRIN000580,青岛农业大学,SR000001</value>
+				<value>SRIN000581,青岛市农业科学研究院,SR000001</value>
+				<value>SRIN000582,青岛市畜牧兽医研究所,SR000001</value>
+				<value>SRIN000583,青海大学,SR000001</value>
+				<value>SRIN000584,青海大学附属医院,SR000001</value>
+				<value>SRIN000585,青海民族大学,SR000001</value>
+				<value>SRIN000586,青海省地方病预防控制所,SR000001</value>
+				<value>SRIN000587,青海省农林科学院,SR000001</value>
+				<value>SRIN000588,青海省气象科学研究所,SR000001</value>
+				<value>SRIN000589,青海省畜牧兽医科学院,SR000001</value>
+				<value>SRIN000590,青海师范大学,SR000001</value>
+				<value>SRIN000591,清华大学,SR000001</value>
+				<value>SRIN000592,琼州学院,SR000001</value>
+				<value>SRIN000593,曲阜师范大学,SR000001</value>
+				<value>SRIN000594,曲靖师范学院,SR000001</value>
+				<value>SRIN000595,衢州学院,SR000001</value>
+				<value>SRIN000596,泉州师范学院,SR000001</value>
+				<value>SRIN000597,三明市农业科学研究院,SR000001</value>
+				<value>SRIN000598,三峡大学,SR000001</value>
+				<value>SRIN000599,三亚深海科学与工程研究所,SR000001</value>
+				<value>SRIN000600,三亚市南繁科学技术研究院,SR000001</value>
+				<value>SRIN000601,山东财经大学,SR000001</value>
+				<value>SRIN000602,山东大学,SR000001</value>
+				<value>SRIN000603,山东建筑大学,SR000001</value>
+				<value>SRIN000604,山东理工大学,SR000001</value>
+				<value>SRIN000605,山东农业大学,SR000001</value>
+				<value>SRIN000606,山东轻工业学院,SR000001</value>
+				<value>SRIN000607,山东省滨州畜牧兽医研究院,SR000001</value>
+				<value>SRIN000608,山东省淡水渔业研究院,SR000001</value>
+				<value>SRIN000609,山东省海洋水产研究所,SR000001</value>
+				<value>SRIN000610,山东省海洋资源与环境研究院,SR000001</value>
+				<value>SRIN000611,山东省花生研究所,SR000001</value>
+				<value>SRIN000612,山东省科学院,SR000001</value>
+				<value>SRIN000613,山东省林业科学研究院,SR000001</value>
+				<value>SRIN000614,山东省农业科学院,SR000001</value>
+				<value>SRIN000615,山东省医学科学院,SR000001</value>
+				<value>SRIN000616,山东师范大学,SR000001</value>
+				<value>SRIN000617,山东医学高等专科学校,SR000001</value>
+				<value>SRIN000618,山东英才学院,SR000001</value>
+				<value>SRIN000619,山东中医药大学,SR000001</value>
+				<value>SRIN000620,山西财经大学,SR000001</value>
+				<value>SRIN000621,山西大同大学,SR000001</value>
+				<value>SRIN000622,山西大学,SR000001</value>
+				<value>SRIN000623,山西农业大学,SR000001</value>
+				<value>SRIN000624,山西省农业科学院高粱研究所,SR000001</value>
+				<value>SRIN000625,山西省农业科学院果树研究所,SR000001</value>
+				<value>SRIN000626,山西省农业科学院棉花研究所,SR000001</value>
+				<value>SRIN000627,山西省农业科学院农作物品种资源研究所,SR000001</value>
+				<value>SRIN000628,山西省农业科学院生物技术研究中心,SR000001</value>
+				<value>SRIN000629,山西省农业科学院蔬菜研究所,SR000001</value>
+				<value>SRIN000630,山西省农业科学院小麦研究所,SR000001</value>
+				<value>SRIN000631,山西省农业科学院作物科学研究所,SR000001</value>
+				<value>SRIN000632,山西师范大学,SR000001</value>
+				<value>SRIN000633,山西医科大学,SR000001</value>
+				<value>SRIN000634,陕西科技大学,SR000001</value>
+				<value>SRIN000635,陕西理工学院,SR000001</value>
+				<value>SRIN000636,陕西省动物研究所,SR000001</value>
+				<value>SRIN000637,陕西省微生物研究所,SR000001</value>
+				<value>SRIN000638,陕西省西安植物园,SR000001</value>
+				<value>SRIN000639,陕西省肿瘤医院,SR000001</value>
+				<value>SRIN000640,陕西师范大学,SR000001</value>
+				<value>SRIN000641,陕西中医药大学,SR000001</value>
+				<value>SRIN000642,汕头大学,SR000001</value>
+				<value>SRIN000643,商丘师范学院,SR000001</value>
+				<value>SRIN000644,上海辰山植物园,SR000001</value>
+				<value>SRIN000645,上海大学,SR000001</value>
+				<value>SRIN000646,上海海事大学,SR000001</value>
+				<value>SRIN000647,上海海洋大学,SR000001</value>
+				<value>SRIN000648,上海华冠生物芯片有限公司,SR000001</value>
+				<value>SRIN000649,上海交通大学,SR000001</value>
+				<value>SRIN000650,上海科技大学,SR000001</value>
+				<value>SRIN000651,上海科技馆,SR000001</value>
+				<value>SRIN000652,上海理工大学,SR000001</value>
+				<value>SRIN000653,上海南方模式生物研究中心,SR000001</value>
+				<value>SRIN000654,上海纽约大学,SR000001</value>
+				<value>SRIN000655,上海人类基因组研究中心,SR000001</value>
+				<value>SRIN000656,上海商学院,SR000001</value>
+				<value>SRIN000657,上海生物信息技术研究中心,SR000001</value>
+				<value>SRIN000658,上海师范大学,SR000001</value>
+				<value>SRIN000659,上海市第八人民医院,SR000001</value>
+				<value>SRIN000660,上海市环境科学研究院,SR000001</value>
+				<value>SRIN000661,上海市计划生育科学研究所,SR000001</value>
+				<value>SRIN000662,上海市精神卫生中心,SR000001</value>
+				<value>SRIN000663,上海市农业科学院,SR000001</value>
+				<value>SRIN000664,上海市农业生物基因中心,SR000001</value>
+				<value>SRIN000665,上海市水产研究所,SR000001</value>
+				<value>SRIN000666,上海市园林科学研究所,SR000001</value>
+				<value>SRIN000667,上海市针灸经络研究中心,SR000001</value>
+				<value>SRIN000668,上海市质量监督检验技术研究院,SR000001</value>
+				<value>SRIN000669,上海市肿瘤研究所,SR000001</value>
+				<value>SRIN000670,上海体育学院,SR000001</value>
+				<value>SRIN000671,上海医药工业研究院,SR000001</value>
+				<value>SRIN000672,上海应用技术大学,SR000001</value>
+				<value>SRIN000673,上海应用技术学院,SR000001</value>
+				<value>SRIN000674,上海植物园,SR000001</value>
+				<value>SRIN000675,上海中医药大学,SR000001</value>
+				<value>SRIN000676,上海组织工程研究与开发中心,SR000001</value>
+				<value>SRIN000677,上饶师范学院,SR000001</value>
+				<value>SRIN000678,韶关学院,SR000001</value>
+				<value>SRIN000679,绍兴文理学院,SR000001</value>
+				<value>SRIN000680,深圳出入境检验检疫局食品检验检疫技术中心,SR000001</value>
+				<value>SRIN000681,深圳大学,SR000001</value>
+				<value>SRIN000682,深圳华大基因研究院,SR000001</value>
+				<value>SRIN000683,深圳市精神卫生中心,SR000001</value>
+				<value>SRIN000684,深圳市仙湖植物园管理处,SR000001</value>
+				<value>SRIN000685,深圳职业技术学院,SR000001</value>
+				<value>SRIN000686,沈阳大学,SR000001</value>
+				<value>SRIN000687,沈阳化工大学,SR000001</value>
+				<value>SRIN000688,沈阳建筑大学,SR000001</value>
+				<value>SRIN000689,沈阳农业大学,SR000001</value>
+				<value>SRIN000690,沈阳师范大学,SR000001</value>
+				<value>SRIN000691,沈阳体育学院,SR000001</value>
+				<value>SRIN000692,沈阳药科大学,SR000001</value>
+				<value>SRIN000693,沈阳医学院,SR000001</value>
+				<value>SRIN000694,石河子大学,SR000001</value>
+				<value>SRIN000695,首都儿科研究所,SR000001</value>
+				<value>SRIN000696,首都师范大学,SR000001</value>
+				<value>SRIN000697,首都体育学院,SR000001</value>
+				<value>SRIN000698,首都医科大学,SR000001</value>
+				<value>SRIN000699,水利部牧区水利科学研究所,SR000001</value>
+				<value>SRIN000700,水利部中国科学院水工程生态研究所,SR000001</value>
+				<value>SRIN000701,司法部司法鉴定科学技术研究所,SR000001</value>
+				<value>SRIN000702,四川大学,SR000001</value>
+				<value>SRIN000703,四川理工学院,SR000001</value>
+				<value>SRIN000704,四川农业大学,SR000001</value>
+				<value>SRIN000705,四川省草原科学研究院,SR000001</value>
+				<value>SRIN000706,四川省林业科学研究院,SR000001</value>
+				<value>SRIN000707,四川省农业科学院,SR000001</value>
+				<value>SRIN000708,四川省农业科学院作物研究所,SR000001</value>
+				<value>SRIN000709,四川省畜牧科学研究院,SR000001</value>
+				<value>SRIN000710,四川省自然资源科学研究院,SR000001</value>
+				<value>SRIN000711,四川师范大学,SR000001</value>
+				<value>SRIN000712,苏州大学,SR000001</value>
+				<value>SRIN000713,苏州科技学院,SR000001</value>
+				<value>SRIN000714,苏州生物医学工程技术研究所,SR000001</value>
+				<value>SRIN000715,苏州市职业大学,SR000001</value>
+				<value>SRIN000716,苏州卫生职业技术学院,SR000001</value>
+				<value>SRIN000717,苏州系统医学研究所,SR000001</value>
+				<value>SRIN000718,塔里木大学,SR000001</value>
+				<value>SRIN000719,台州学院,SR000001</value>
+				<value>SRIN000720,太原科技大学,SR000001</value>
+				<value>SRIN000721,太原理工大学,SR000001</value>
+				<value>SRIN000722,太原师范学院,SR000001</value>
+				<value>SRIN000723,泰山学院,SR000001</value>
+				<value>SRIN000724,泰山医学院,SR000001</value>
+				<value>SRIN000725,唐山师范学院,SR000001</value>
+				<value>SRIN000726,天津大学,SR000001</value>
+				<value>SRIN000727,天津工业大学,SR000001</value>
+				<value>SRIN000728,天津工业生物技术研究所,SR000001</value>
+				<value>SRIN000729,天津科技大学,SR000001</value>
+				<value>SRIN000730,天津理工大学,SR000001</value>
+				<value>SRIN000731,天津农学院,SR000001</value>
+				<value>SRIN000732,天津商业大学,SR000001</value>
+				<value>SRIN000733,天津师范大学,SR000001</value>
+				<value>SRIN000734,天津市产品质量监督检测技术研究院,SR000001</value>
+				<value>SRIN000735,天津市第一中心医院,SR000001</value>
+				<value>SRIN000736,天津市国际生物医药联合研究院,SR000001</value>
+				<value>SRIN000737,天津市海河医院,SR000001</value>
+				<value>SRIN000738,天津市农业科学院,SR000001</value>
+				<value>SRIN000739,天津市神经外科研究所,SR000001</value>
+				<value>SRIN000740,天津市食品加工工程中心,SR000001</value>
+				<value>SRIN000741,天津市天津医院,SR000001</value>
+				<value>SRIN000742,天津体育学院,SR000001</value>
+				<value>SRIN000743,天津医科大学,SR000001</value>
+				<value>SRIN000744,天津自然博物馆,SR000001</value>
+				<value>SRIN000745,天水师范学院,SR000001</value>
+				<value>SRIN000746,通化师范学院,SR000001</value>
+				<value>SRIN000747,同济大学,SR000001</value>
+				<value>SRIN000748,铜仁学院,SR000001</value>
+				<value>SRIN000749,皖南医学院,SR000001</value>
+				<value>SRIN000750,皖西学院,SR000001</value>
+				<value>SRIN000751,潍坊科技学院,SR000001</value>
+				<value>SRIN000752,潍坊学院,SR000001</value>
+				<value>SRIN000753,潍坊医学院,SR000001</value>
+				<value>SRIN000754,卫生部北京医院,SR000001</value>
+				<value>SRIN000755,渭南师范学院,SR000001</value>
+				<value>SRIN000756,温州大学,SR000001</value>
+				<value>SRIN000757,温州医科大学,SR000001</value>
+				<value>SRIN000758,温州医学院,SR000001</value>
+				<value>SRIN000759,武汉大学,SR000001</value>
+				<value>SRIN000760,武汉纺织大学,SR000001</value>
+				<value>SRIN000761,武汉工程大学,SR000001</value>
+				<value>SRIN000762,武汉工业学院,SR000001</value>
+				<value>SRIN000763,武汉科技大学,SR000001</value>
+				<value>SRIN000764,武汉理工大学,SR000001</value>
+				<value>SRIN000765,武汉轻工大学,SR000001</value>
+				<value>SRIN000766,武汉生物工程学院,SR000001</value>
+				<value>SRIN000767,武汉市结核病防治所,SR000001</value>
+				<value>SRIN000768,武汉市林业果树科学研究所,SR000001</value>
+				<value>SRIN000769,武汉市农业科学技术研究院水产科学研究所,SR000001</value>
+				<value>SRIN000770,武汉市农业科学研究所,SR000001</value>
+				<value>SRIN000771,武汉市蔬菜科学研究所,SR000001</value>
+				<value>SRIN000772,武汉市水产科学研究所,SR000001</value>
+				<value>SRIN000773,武汉市畜牧兽医科学研究所,SR000001</value>
+				<value>SRIN000774,武汉体育学院,SR000001</value>
+				<value>SRIN000775,武汉血液中心,SR000001</value>
+				<value>SRIN000776,武夷学院,SR000001</value>
+				<value>SRIN000777,西安电子科技大学,SR000001</value>
+				<value>SRIN000778,西安交通大学,SR000001</value>
+				<value>SRIN000779,西安交通大学苏州研究院,SR000001</value>
+				<value>SRIN000780,西安科技大学,SR000001</value>
+				<value>SRIN000781,西安理工大学,SR000001</value>
+				<value>SRIN000782,西安文理学院,SR000001</value>
+				<value>SRIN000783,西安医学院,SR000001</value>
+				<value>SRIN000784,西安组织工程工程技术研究中心,SR000001</value>
+				<value>SRIN000785,西北大学,SR000001</value>
+				<value>SRIN000786,西北妇女儿童医院,SR000001</value>
+				<value>SRIN000787,西北工业大学,SR000001</value>
+				<value>SRIN000788,西北民族大学,SR000001</value>
+				<value>SRIN000789,西北农林科技大学,SR000001</value>
+				<value>SRIN000790,西北师范大学,SR000001</value>
+				<value>SRIN000791,西北有色金属研究院,SR000001</value>
+				<value>SRIN000792,西藏大学,SR000001</value>
+				<value>SRIN000793,西藏大学农牧学院,SR000001</value>
+				<value>SRIN000794,西藏民族大学,SR000001</value>
+				<value>SRIN000795,西藏民族学院,SR000001</value>
+				<value>SRIN000796,西藏农牧学院,SR000001</value>
+				<value>SRIN000797,西藏自治区高原生物研究所,SR000001</value>
+				<value>SRIN000798,西藏自治区农牧科学院,SR000001</value>
+				<value>SRIN000799,西昌学院,SR000001</value>
+				<value>SRIN000800,西华大学,SR000001</value>
+				<value>SRIN000801,西华师范大学,SR000001</value>
+				<value>SRIN000802,西交利物浦大学,SR000001</value>
+				<value>SRIN000803,西南大学,SR000001</value>
+				<value>SRIN000804,西南交通大学,SR000001</value>
+				<value>SRIN000805,西南科技大学,SR000001</value>
+				<value>SRIN000806,西南林业大学,SR000001</value>
+				<value>SRIN000807,西南民族大学,SR000001</value>
+				<value>SRIN000808,西南医科大学,SR000001</value>
+				<value>SRIN000809,厦门大学,SR000001</value>
+				<value>SRIN000810,厦门理工学院,SR000001</value>
+				<value>SRIN000811,厦门医学高等专科学校,SR000001</value>
+				<value>SRIN000812,香港城市大学深圳研究院,SR000001</value>
+				<value>SRIN000813,香港大学深圳研究院,SR000001</value>
+				<value>SRIN000814,香港浸会大学深圳研究院,SR000001</value>
+				<value>SRIN000815,香港科技大学深圳研究院,SR000001</value>
+				<value>SRIN000816,香港理工大学深圳研究院,SR000001</value>
+				<value>SRIN000817,香港中文大学深圳研究院,SR000001</value>
+				<value>SRIN000818,湘潭大学,SR000001</value>
+				<value>SRIN000819,新疆大学,SR000001</value>
+				<value>SRIN000820,新疆农垦科学院,SR000001</value>
+				<value>SRIN000821,新疆农业大学,SR000001</value>
+				<value>SRIN000822,新疆农业科学院,SR000001</value>
+				<value>SRIN000823,新疆师范大学,SR000001</value>
+				<value>SRIN000824,新疆维吾尔自治区环境保护科学研究院,SR000001</value>
+				<value>SRIN000825,新疆维吾尔自治区葡萄瓜果开发研究中心,SR000001</value>
+				<value>SRIN000826,新疆维吾尔自治区人民医院,SR000001</value>
+				<value>SRIN000827,新疆维吾尔自治区实验动物研究中心,SR000001</value>
+				<value>SRIN000828,新疆维吾尔自治区水产科学研究所,SR000001</value>
+				<value>SRIN000829,新疆维吾尔自治区畜牧科学院,SR000001</value>
+				<value>SRIN000830,新疆维吾尔自治区中药民族药研究所,SR000001</value>
+				<value>SRIN000831,新疆畜牧科学院,SR000001</value>
+				<value>SRIN000832,新疆医科大学,SR000001</value>
+				<value>SRIN000833,新乡学院,SR000001</value>
+				<value>SRIN000834,新乡医学院,SR000001</value>
+				<value>SRIN000835,新余学院,SR000001</value>
+				<value>SRIN000836,信阳农业高等专科学校,SR000001</value>
+				<value>SRIN000837,信阳师范学院,SR000001</value>
+				<value>SRIN000838,徐州工程学院,SR000001</value>
+				<value>SRIN000839,徐州医科大学,SR000001</value>
+				<value>SRIN000840,徐州医学院,SR000001</value>
+				<value>SRIN000841,许昌学院,SR000001</value>
+				<value>SRIN000842,烟台大学,SR000001</value>
+				<value>SRIN000843,延安大学,SR000001</value>
+				<value>SRIN000844,延边朝鲜族自治州农业科学院,SR000001</value>
+				<value>SRIN000845,延边大学,SR000001</value>
+				<value>SRIN000846,盐城工学院,SR000001</value>
+				<value>SRIN000847,盐城师范学院,SR000001</value>
+				<value>SRIN000848,盐城卫生职业技术学院,SR000001</value>
+				<value>SRIN000849,燕山大学,SR000001</value>
+				<value>SRIN000850,扬州大学,SR000001</value>
+				<value>SRIN000851,伊犁师范学院,SR000001</value>
+				<value>SRIN000852,宜宾学院,SR000001</value>
+				<value>SRIN000853,宜春学院,SR000001</value>
+				<value>SRIN000854,右江民族医学院,SR000001</value>
+				<value>SRIN000855,榆林学院,SR000001</value>
+				<value>SRIN000856,玉林师范学院,SR000001</value>
+				<value>SRIN000857,玉溪师范学院,SR000001</value>
+				<value>SRIN000858,云南财经大学,SR000001</value>
+				<value>SRIN000859,云南大学,SR000001</value>
+				<value>SRIN000860,云南林业职业技术学院,SR000001</value>
+				<value>SRIN000861,云南民族大学,SR000001</value>
+				<value>SRIN000862,云南农业大学,SR000001</value>
+				<value>SRIN000863,云南省草地动物科学研究院,SR000001</value>
+				<value>SRIN000864,云南省地方病防治所,SR000001</value>
+				<value>SRIN000865,云南省第二人民医院,SR000001</value>
+				<value>SRIN000866,云南省第一人民医院,SR000001</value>
+				<value>SRIN000867,云南省林业科学院,SR000001</value>
+				<value>SRIN000868,云南省农业科学院,SR000001</value>
+				<value>SRIN000869,云南省农业生物技术重点实验室,SR000001</value>
+				<value>SRIN000870,云南省热带作物科学研究所,SR000001</value>
+				<value>SRIN000871,云南省畜牧兽医科学院,SR000001</value>
+				<value>SRIN000872,云南省烟草农业科学研究院,SR000001</value>
+				<value>SRIN000873,云南师范大学,SR000001</value>
+				<value>SRIN000874,云南烟草科学研究院,SR000001</value>
+				<value>SRIN000875,云南中科灵长类生物医学重点实验室,SR000001</value>
+				<value>SRIN000876,云南中医学院,SR000001</value>
+				<value>SRIN000877,运城学院,SR000001</value>
+				<value>SRIN000878,枣庄学院,SR000001</value>
+				<value>SRIN000879,湛江师范学院,SR000001</value>
+				<value>SRIN000880,张掖市林业科学研究院,SR000001</value>
+				<value>SRIN000881,肇庆学院,SR000001</value>
+				<value>SRIN000882,浙江大学,SR000001</value>
+				<value>SRIN000883,浙江大学城市学院,SR000001</value>
+				<value>SRIN000884,浙江大学宁波理工学院,SR000001</value>
+				<value>SRIN000885,浙江工商大学,SR000001</value>
+				<value>SRIN000886,浙江工业大学,SR000001</value>
+				<value>SRIN000887,浙江海洋大学,SR000001</value>
+				<value>SRIN000888,浙江海洋学院,SR000001</value>
+				<value>SRIN000889,浙江科技学院,SR000001</value>
+				<value>SRIN000890,浙江理工大学,SR000001</value>
+				<value>SRIN000891,浙江农林大学,SR000001</value>
+				<value>SRIN000892,浙江清华长三角研究院,SR000001</value>
+				<value>SRIN000893,浙江省淡水水产研究所,SR000001</value>
+				<value>SRIN000894,浙江省疾病预防控制中心,SR000001</value>
+				<value>SRIN000895,浙江省检验检疫科学技术研究院,SR000001</value>
+				<value>SRIN000896,浙江省林业科学研究院,SR000001</value>
+				<value>SRIN000897,浙江省农业科学院,SR000001</value>
+				<value>SRIN000898,浙江省水利河口研究院,SR000001</value>
+				<value>SRIN000899,浙江省医学科学院,SR000001</value>
+				<value>SRIN000900,浙江省肿瘤医院,SR000001</value>
+				<value>SRIN000901,浙江师范大学,SR000001</value>
+				<value>SRIN000902,浙江树人学院,SR000001</value>
+				<value>SRIN000903,浙江万里学院,SR000001</value>
+				<value>SRIN000904,浙江医学高等专科学校,SR000001</value>
+				<value>SRIN000905,浙江医药高等专科学校,SR000001</value>
+				<value>SRIN000906,浙江医院,SR000001</value>
+				<value>SRIN000907,浙江中医药大学,SR000001</value>
+				<value>SRIN000908,浙江自然博物馆,SR000001</value>
+				<value>SRIN000909,郑州大学,SR000001</value>
+				<value>SRIN000910,郑州牧业工程高等专科学校,SR000001</value>
+				<value>SRIN000911,郑州轻工业学院,SR000001</value>
+				<value>SRIN000912,郑州师范学院,SR000001</value>
+				<value>SRIN000913,中北大学,SR000001</value>
+				<value>SRIN000914,中国标准化研究院,SR000001</value>
+				<value>SRIN000915,中国长江三峡集团公司中华鲟研究所,SR000001</value>
+				<value>SRIN000916,中国地质博物馆,SR000001</value>
+				<value>SRIN000917,中国地质大学（北京）,SR000001</value>
+				<value>SRIN000918,中国地质大学（武汉）,SR000001</value>
+				<value>SRIN000919,中国地质科学院地质研究所,SR000001</value>
+				<value>SRIN000920,中国动物卫生与流行病学中心,SR000001</value>
+				<value>SRIN000921,中国动物疫病预防控制中心,SR000001</value>
+				<value>SRIN000922,中国海洋大学,SR000001</value>
+				<value>SRIN000923,中国航天员科研训练中心,SR000001</value>
+				<value>SRIN000924,中国环境监测总站,SR000001</value>
+				<value>SRIN000925,中国环境科学研究院,SR000001</value>
+				<value>SRIN000926,中国极地研究中心,SR000001</value>
+				<value>SRIN000927,中国疾病预防控制中心,SR000001</value>
+				<value>SRIN000928,中国疾病预防控制中心病毒病预防控制所,SR000001</value>
+				<value>SRIN000929,中国疾病预防控制中心传染病预防控制所,SR000001</value>
+				<value>SRIN000930,中国疾病预防控制中心辐射防护与核安全医学所,SR000001</value>
+				<value>SRIN000931,中国疾病预防控制中心寄生虫病预防控制所,SR000001</value>
+				<value>SRIN000932,中国疾病预防控制中心性病艾滋病预防控制中心,SR000001</value>
+				<value>SRIN000933,中国疾病预防控制中心营养与健康所,SR000001</value>
+				<value>SRIN000934,中国疾病预防控制中心职业卫生与中毒控制所,SR000001</value>
+				<value>SRIN000935,中国计量大学,SR000001</value>
+				<value>SRIN000936,中国计量科学研究院,SR000001</value>
+				<value>SRIN000937,中国计量学院,SR000001</value>
+				<value>SRIN000938,中国检验检疫科学研究院,SR000001</value>
+				<value>SRIN000939,中国科技出版传媒股份有限公司,SR000001</value>
+				<value>SRIN000940,中国科学技术大学,SR000001</value>
+				<value>SRIN000941,中国科学技术协会办公厅,SR000001</value>
+				<value>SRIN000942,中国科学院半导体研究所,SR000001</value>
+				<value>SRIN000943,中国科学院北京基因组研究所,SR000001</value>
+				<value>SRIN000944,中国科学院长春应用化学研究所,SR000001</value>
+				<value>SRIN000945,中国科学院成都生物研究所,SR000001</value>
+				<value>SRIN000946,中国科学院城市环境研究所,SR000001</value>
+				<value>SRIN000947,中国科学院大连化学物理研究所,SR000001</value>
+				<value>SRIN000948,中国科学院大气物理研究所,SR000001</value>
+				<value>SRIN000949,中国科学院大学,SR000001</value>
+				<value>SRIN000950,中国科学院地理科学与资源研究所,SR000001</value>
+				<value>SRIN000951,中国科学院地球化学研究所,SR000001</value>
+				<value>SRIN000952,中国科学院地球环境研究所,SR000001</value>
+				<value>SRIN000953,中国科学院电工研究所,SR000001</value>
+				<value>SRIN000954,中国科学院电子学研究所,SR000001</value>
+				<value>SRIN000955,中国科学院东北地理与农业生态研究所,SR000001</value>
+				<value>SRIN000956,中国科学院动物研究所,SR000001</value>
+				<value>SRIN000957,中国科学院福建物质结构研究所,SR000001</value>
+				<value>SRIN000958,中国科学院高能物理研究所,SR000001</value>
+				<value>SRIN000959,中国科学院广州能源研究所,SR000001</value>
+				<value>SRIN000960,中国科学院广州生物医药与健康研究院,SR000001</value>
+				<value>SRIN000961,中国科学院过程工程研究所,SR000001</value>
+				<value>SRIN000962,中国科学院海洋研究所,SR000001</value>
+				<value>SRIN000963,中国科学院寒区旱区环境与工程研究所,SR000001</value>
+				<value>SRIN000964,中国科学院合肥物质科学研究院,SR000001</value>
+				<value>SRIN000965,中国科学院华南植物园,SR000001</value>
+				<value>SRIN000966,中国科学院化学研究所,SR000001</value>
+				<value>SRIN000967,中国科学院计算技术研究所,SR000001</value>
+				<value>SRIN000968,中国科学院金属研究所,SR000001</value>
+				<value>SRIN000969,中国科学院近代物理研究所,SR000001</value>
+				<value>SRIN000970,中国科学院昆明动物研究所,SR000001</value>
+				<value>SRIN000971,中国科学院昆明植物研究所,SR000001</value>
+				<value>SRIN000972,中国科学院兰州化学物理研究所,SR000001</value>
+				<value>SRIN000973,中国科学院理化技术研究所,SR000001</value>
+				<value>SRIN000974,中国科学院理论物理研究所,SR000001</value>
+				<value>SRIN000975,中国科学院力学研究所,SR000001</value>
+				<value>SRIN000976,中国科学院南海海洋研究所,SR000001</value>
+				<value>SRIN000977,中国科学院南京地理与湖泊研究所,SR000001</value>
+				<value>SRIN000978,中国科学院南京地质古生物研究所,SR000001</value>
+				<value>SRIN000979,中国科学院南京土壤研究所,SR000001</value>
+				<value>SRIN000980,中国科学院宁波材料技术与工程研究所,SR000001</value>
+				<value>SRIN000981,中国科学院青藏高原研究所,SR000001</value>
+				<value>SRIN000982,中国科学院青岛生物能源与过程研究所,SR000001</value>
+				<value>SRIN000983,中国科学院上海巴斯德研究所,SR000001</value>
+				<value>SRIN000984,中国科学院上海高等研究院,SR000001</value>
+				<value>SRIN000985,中国科学院上海硅酸盐研究所,SR000001</value>
+				<value>SRIN000986,中国科学院上海生命科学研究院,SR000001</value>
+				<value>SRIN000987,中国科学院上海微系统与信息技术研究所,SR000001</value>
+				<value>SRIN000988,中国科学院上海药物研究所,SR000001</value>
+				<value>SRIN000989,中国科学院上海应用物理研究所,SR000001</value>
+				<value>SRIN000990,中国科学院上海有机化学研究所,SR000001</value>
+				<value>SRIN000991,中国科学院深圳先进技术研究院,SR000001</value>
+				<value>SRIN000992,中国科学院沈阳应用生态研究所,SR000001</value>
+				<value>SRIN000993,中国科学院生态环境研究中心,SR000001</value>
+				<value>SRIN000994,中国科学院生物物理研究所,SR000001</value>
+				<value>SRIN000995,中国科学院数学与系统科学研究院,SR000001</value>
+				<value>SRIN000996,中国科学院水利部成都山地灾害与环境研究所,SR000001</value>
+				<value>SRIN000997,中国科学院水利部水土保持研究所,SR000001</value>
+				<value>SRIN000998,中国科学院水生生物研究所,SR000001</value>
+				<value>SRIN000999,中国科学院苏州纳米技术与纳米仿生研究所,SR000001</value>
+				<value>SRIN001000,中国科学院苏州生物医学工程技术研究所,SR000001</value>
+				<value>SRIN001001,中国科学院天津工业生物技术研究所,SR000001</value>
+				<value>SRIN001002,中国科学院微生物研究所,SR000001</value>
+				<value>SRIN001003,中国科学院武汉病毒研究所,SR000001</value>
+				<value>SRIN001004,中国科学院武汉物理与数学研究所,SR000001</value>
+				<value>SRIN001005,中国科学院武汉植物园,SR000001</value>
+				<value>SRIN001006,中国科学院物理研究所,SR000001</value>
+				<value>SRIN001007,中国科学院西安光学精密机械研究所,SR000001</value>
+				<value>SRIN001008,中国科学院西北高原生物研究所,SR000001</value>
+				<value>SRIN001009,中国科学院西双版纳热带植物园,SR000001</value>
+				<value>SRIN001010,中国科学院心理研究所,SR000001</value>
+				<value>SRIN001011,中国科学院新疆理化技术研究所,SR000001</value>
+				<value>SRIN001012,中国科学院新疆生态与地理研究所,SR000001</value>
+				<value>SRIN001013,中国科学院亚热带农业生态研究所,SR000001</value>
+				<value>SRIN001014,中国科学院烟台海岸带研究所,SR000001</value>
+				<value>SRIN001015,中国科学院遥感应用研究所,SR000001</value>
+				<value>SRIN001016,中国科学院遥感与数字地球研究所,SR000001</value>
+				<value>SRIN001017,中国科学院遗传与发育生物学研究所,SR000001</value>
+				<value>SRIN001018,中国科学院遗传与发育生物学研究所农业资源研究中心,SR000001</value>
+				<value>SRIN001019,中国科学院植物研究所,SR000001</value>
+				<value>SRIN001020,中国科学院重庆绿色智能技术研究院,SR000001</value>
+				<value>SRIN001021,中国科学院自动化研究所,SR000001</value>
+				<value>SRIN001022,中国空间技术研究院,SR000001</value>
+				<value>SRIN001023,中国矿业大学,SR000001</value>
+				<value>SRIN001024,中国矿业大学（北京）,SR000001</value>
+				<value>SRIN001025,中国林业科学研究院,SR000001</value>
+				<value>SRIN001026,中国林业科学研究院华北林业实验中心,SR000001</value>
+				<value>SRIN001027,中国林业科学研究院林产化学工业研究所,SR000001</value>
+				<value>SRIN001028,中国林业科学研究院林业科技信息研究所,SR000001</value>
+				<value>SRIN001029,中国林业科学研究院林业新技术研究所,SR000001</value>
+				<value>SRIN001030,中国林业科学研究院林业研究所,SR000001</value>
+				<value>SRIN001031,中国林业科学研究院木材工业研究所,SR000001</value>
+				<value>SRIN001032,中国林业科学研究院热带林业研究所,SR000001</value>
+				<value>SRIN001033,中国林业科学研究院森林生态环境与保护研究所,SR000001</value>
+				<value>SRIN001034,中国林业科学研究院亚热带林业研究所,SR000001</value>
+				<value>SRIN001035,中国林业科学研究院资源昆虫研究所,SR000001</value>
+				<value>SRIN001036,中国林业科学研究院资源信息研究所,SR000001</value>
+				<value>SRIN001037,中国民航大学,SR000001</value>
+				<value>SRIN001038,中国民用航空飞行学院,SR000001</value>
+				<value>SRIN001039,中国农业大学,SR000001</value>
+				<value>SRIN001040,中国农业机械化科学研究院,SR000001</value>
+				<value>SRIN001041,中国农业科学院北京畜牧兽医研究所,SR000001</value>
+				<value>SRIN001042,中国农业科学院蚕业研究所,SR000001</value>
+				<value>SRIN001043,中国农业科学院草原研究所,SR000001</value>
+				<value>SRIN001044,中国农业科学院茶叶研究所,SR000001</value>
+				<value>SRIN001045,中国农业科学院柑桔研究所,SR000001</value>
+				<value>SRIN001046,中国农业科学院果树研究所,SR000001</value>
+				<value>SRIN001047,中国农业科学院哈尔滨兽医研究所,SR000001</value>
+				<value>SRIN001048,中国农业科学院兰州兽医研究所,SR000001</value>
+				<value>SRIN001049,中国农业科学院兰州畜牧与兽药研究所,SR000001</value>
+				<value>SRIN001050,中国农业科学院麻类研究所,SR000001</value>
+				<value>SRIN001051,中国农业科学院蜜蜂研究所,SR000001</value>
+				<value>SRIN001052,中国农业科学院棉花研究所,SR000001</value>
+				<value>SRIN001053,中国农业科学院农业环境与可持续发展研究所,SR000001</value>
+				<value>SRIN001054,中国农业科学院农业信息研究所,SR000001</value>
+				<value>SRIN001055,中国农业科学院农业质量标准与检测技术研究所,SR000001</value>
+				<value>SRIN001056,中国农业科学院农业资源与农业区划研究所,SR000001</value>
+				<value>SRIN001057,中国农业科学院上海兽医研究所,SR000001</value>
+				<value>SRIN001058,中国农业科学院深圳农业基因组研究所,SR000001</value>
+				<value>SRIN001059,中国农业科学院生物技术研究所,SR000001</value>
+				<value>SRIN001060,中国农业科学院蔬菜花卉研究所,SR000001</value>
+				<value>SRIN001061,中国农业科学院饲料研究所,SR000001</value>
+				<value>SRIN001062,中国农业科学院特产研究所,SR000001</value>
+				<value>SRIN001063,中国农业科学院烟草研究所,SR000001</value>
+				<value>SRIN001064,中国农业科学院研究生院,SR000001</value>
+				<value>SRIN001065,中国农业科学院油料作物研究所,SR000001</value>
+				<value>SRIN001066,中国农业科学院原子能利用研究所,SR000001</value>
+				<value>SRIN001067,中国农业科学院郑州果树研究所,SR000001</value>
+				<value>SRIN001068,中国农业科学院植物保护研究所,SR000001</value>
+				<value>SRIN001069,中国农业科学院作物科学研究所,SR000001</value>
+				<value>SRIN001070,中国气象局兰州干旱气象研究所,SR000001</value>
+				<value>SRIN001071,中国气象局沈阳大气环境研究所,SR000001</value>
+				<value>SRIN001072,中国气象科学研究院,SR000001</value>
+				<value>SRIN001073,中国热带农业科学院,SR000001</value>
+				<value>SRIN001074,中国热带农业科学院海口实验站,SR000001</value>
+				<value>SRIN001075,中国热带农业科学院环境与植物保护研究所,SR000001</value>
+				<value>SRIN001076,中国热带农业科学院科技信息研究所,SR000001</value>
+				<value>SRIN001077,中国热带农业科学院南亚热带作物研究所,SR000001</value>
+				<value>SRIN001078,中国热带农业科学院农产品加工研究所,SR000001</value>
+				<value>SRIN001079,中国热带农业科学院热带生物技术研究所,SR000001</value>
+				<value>SRIN001080,中国热带农业科学院热带作物品种资源研究所,SR000001</value>
+				<value>SRIN001081,中国热带农业科学院香料饮料研究所,SR000001</value>
+				<value>SRIN001082,中国热带农业科学院橡胶研究所,SR000001</value>
+				<value>SRIN001083,中国热带农业科学院椰子研究所,SR000001</value>
+				<value>SRIN001084,中国人民大学,SR000001</value>
+				<value>SRIN001085,中国人民解放军62023部队,SR000001</value>
+				<value>SRIN001086,中国人民解放军白求恩国际和平医院,SR000001</value>
+				<value>SRIN001087,中国人民解放军北京军区总医院,SR000001</value>
+				<value>SRIN001088,中国人民解放军成都军区总医院,SR000001</value>
+				<value>SRIN001089,中国人民解放军第306医院,SR000001</value>
+				<value>SRIN001090,中国人民解放军第二军医大学,SR000001</value>
+				<value>SRIN001091,中国人民解放军第二炮兵总医院,SR000001</value>
+				<value>SRIN001092,中国人民解放军第二一０医院,SR000001</value>
+				<value>SRIN001093,中国人民解放军第三０二医院,SR000001</value>
+				<value>SRIN001094,中国人民解放军第三二三医院,SR000001</value>
+				<value>SRIN001095,中国人民解放军第三〇九医院,SR000001</value>
+				<value>SRIN001096,中国人民解放军第三军医大学,SR000001</value>
+				<value>SRIN001097,中国人民解放军第四军医大学,SR000001</value>
+				<value>SRIN001098,中国人民解放军第一医院,SR000001</value>
+				<value>SRIN001099,中国人民解放军防化研究院,SR000001</value>
+				<value>SRIN001100,中国人民解放军国防科学技术大学,SR000001</value>
+				<value>SRIN001101,中国人民解放军海军医学研究所,SR000001</value>
+				<value>SRIN001102,中国人民解放军海军总医院,SR000001</value>
+				<value>SRIN001103,中国人民解放军济南军区第四0一医院,SR000001</value>
+				<value>SRIN001104,中国人民解放军济南军区总医院,SR000001</value>
+				<value>SRIN001105,中国人民解放军军事医学科学院,SR000001</value>
+				<value>SRIN001106,中国人民解放军空军工程大学,SR000001</value>
+				<value>SRIN001107,中国人民解放军空军航空医学研究所,SR000001</value>
+				<value>SRIN001108,中国人民解放军空军总医院,SR000001</value>
+				<value>SRIN001109,中国人民解放军南京军区福州总医院,SR000001</value>
+				<value>SRIN001110,中国人民解放军南京军区军事医学研究所,SR000001</value>
+				<value>SRIN001111,中国人民解放军南京军区南京总医院,SR000001</value>
+				<value>SRIN001112,中国人民解放军沈阳军区总医院,SR000001</value>
+				<value>SRIN001113,中国人民解放军武汉军械士官学校,SR000001</value>
+				<value>SRIN001114,中国人民解放军新疆军区疾病预防控制中心,SR000001</value>
+				<value>SRIN001115,中国人民解放军总医院,SR000001</value>
+				<value>SRIN001116,中国人民武装警察部队后勤学院,SR000001</value>
+				<value>SRIN001117,中国人民武装警察部队总医院,SR000001</value>
+				<value>SRIN001118,中国肉类食品综合研究中心,SR000001</value>
+				<value>SRIN001119,中国社会科学院民族学与人类学研究所,SR000001</value>
+				<value>SRIN001120,中国石油大学（北京）,SR000001</value>
+				<value>SRIN001121,中国石油大学（华东）,SR000001</value>
+				<value>SRIN001122,中国食品发酵工业研究院,SR000001</value>
+				<value>SRIN001123,中国食品药品检定研究院,SR000001</value>
+				<value>SRIN001124,中国兽医药品监察所,SR000001</value>
+				<value>SRIN001125,中国水产科学研究院,SR000001</value>
+				<value>SRIN001126,中国水产科学研究院长江水产研究所,SR000001</value>
+				<value>SRIN001127,中国水产科学研究院淡水渔业研究中心,SR000001</value>
+				<value>SRIN001128,中国水产科学研究院东海水产研究所,SR000001</value>
+				<value>SRIN001129,中国水产科学研究院黑龙江水产研究所,SR000001</value>
+				<value>SRIN001130,中国水产科学研究院黄海水产研究所,SR000001</value>
+				<value>SRIN001131,中国水产科学研究院南海水产研究所,SR000001</value>
+				<value>SRIN001132,中国水产科学研究院渔业机械仪器研究所,SR000001</value>
+				<value>SRIN001133,中国水产科学研究院珠江水产研究所,SR000001</value>
+				<value>SRIN001134,中国水稻研究所,SR000001</value>
+				<value>SRIN001135,中国水利水电科学研究院,SR000001</value>
+				<value>SRIN001136,中国细胞生物学学会,SR000001</value>
+				<value>SRIN001137,中国烟草总公司郑州烟草研究院,SR000001</value>
+				<value>SRIN001138,中国药科大学,SR000001</value>
+				<value>SRIN001139,中国医科大学,SR000001</value>
+				<value>SRIN001140,中国医学科学院,SR000001</value>
+				<value>SRIN001141,中国医学科学院北京协和医院,SR000001</value>
+				<value>SRIN001142,中国医学科学院病原生物学研究所,SR000001</value>
+				<value>SRIN001143,中国医学科学院阜外心血管病医院,SR000001</value>
+				<value>SRIN001144,中国医学科学院基础医学研究所,SR000001</value>
+				<value>SRIN001145,中国医学科学院药物研究所,SR000001</value>
+				<value>SRIN001146,中国医学科学院药用植物研究所,SR000001</value>
+				<value>SRIN001147,中国医学科学院医学生物学研究所,SR000001</value>
+				<value>SRIN001148,中国医学科学院医学实验动物研究所,SR000001</value>
+				<value>SRIN001149,中国医学科学院医药生物技术研究所,SR000001</value>
+				<value>SRIN001150,中国医学科学院整形外科医院,SR000001</value>
+				<value>SRIN001151,中国医学科学院肿瘤医院,SR000001</value>
+				<value>SRIN001152,中国政法大学,SR000001</value>
+				<value>SRIN001153,中国植物生理学会,SR000001</value>
+				<value>SRIN001154,中国植物学会,SR000001</value>
+				<value>SRIN001155,中国中医科学院广安门医院,SR000001</value>
+				<value>SRIN001156,中国中医科学院医学实验中心,SR000001</value>
+				<value>SRIN001157,中国中医科学院中药研究所,SR000001</value>
+				<value>SRIN001158,中国中医科学院中医临床基础医学研究所,SR000001</value>
+				<value>SRIN001159,中国作物学会,SR000001</value>
+				<value>SRIN001160,中华全国供销合作总社杭州茶叶研究所,SR000001</value>
+				<value>SRIN001161,中华全国供销合作总社南京野生植物综合利用研究所,SR000001</value>
+				<value>SRIN001162,中华人民共和国广东出入境检验检疫局,SR000001</value>
+				<value>SRIN001163,中华人民共和国山东出入境检验检疫局,SR000001</value>
+				<value>SRIN001164,中华人民共和国上海出入境检验检疫局,SR000001</value>
+				<value>SRIN001165,中南大学,SR000001</value>
+				<value>SRIN001166,中南林业科技大学,SR000001</value>
+				<value>SRIN001167,中南民族大学,SR000001</value>
+				<value>SRIN001168,中山大学,SR000001</value>
+				<value>SRIN001169,中央财经大学,SR000001</value>
+				<value>SRIN001170,中央民族大学,SR000001</value>
+				<value>SRIN001171,中原工学院,SR000001</value>
+				<value>SRIN001172,仲恺农业工程学院,SR000001</value>
+				<value>SRIN001173,重庆大学,SR000001</value>
+				<value>SRIN001174,重庆第二师范学院,SR000001</value>
+				<value>SRIN001175,重庆工商大学,SR000001</value>
+				<value>SRIN001176,重庆科技学院,SR000001</value>
+				<value>SRIN001177,重庆理工大学,SR000001</value>
+				<value>SRIN001178,重庆三峡学院,SR000001</value>
+				<value>SRIN001179,重庆师范大学,SR000001</value>
+				<value>SRIN001180,重庆市畜牧科学院,SR000001</value>
+				<value>SRIN001181,重庆文理学院,SR000001</value>
+				<value>SRIN001182,重庆医科大学,SR000001</value>
+				<value>SRIN001183,重庆邮电大学,SR000001</value>
+				<value>SRIN001184,周口师范学院,SR000001</value>
+				<value>SRIN001185,珠海澳大科技研究院,SR000001</value>
+				<value>SRIN001186,遵义师范学院,SR000001</value>
+				<value>SRIN001187,遵义医学院,SR000001</value>
+				<value>SRIN001188,上海财经大学,SR000001</value>
+				<value>SRIN001189,国家蛋白质科学中心·上海,SR000001</value>
+				<value>SRIN001190,中国科学院脑科学与智能技术卓越创新中心,SR000001</value>
+				
+			</list>
+		</property>
+	</bean>
+	<bean id="institute_name_mainten_initor" class="com.skynet.bettbioadv2.initdata.AllStringInitOperator">
+		<property name="sql"
+			value="insert into bettbio_ad_v2.research_institute_name_maintenance_data(id,standard_name,alias_name,belongs_to,version) values(?, ?, ?, ?, 1)" />
+		<property name="dataList">
+			<list>
+				<value>RINM000001,SRIN000118, 东华大学化学化工与生物工程学院, SR000001</value>
+				<value>RINM000002,SRIN000118, 东华大学环境学院, SR000001</value>
+				<value>RINM000003,SRIN000139, 复旦大学药学院, SR000001</value>
+				<value>RINM000004,SRIN000139, 复旦大学生命科学学院, SR000001</value>
+				<value>RINM000005,SRIN000383, 华东理工大学生物工程学院, SR000001</value>
+				<value>RINM000006,SRIN000384, 华东师范大学生科院, SR000001</value>
+				<value>RINM000007,SRIN000645, 上海大学生命科学学院, SR000001</value>
+				<value>RINM000008,SRIN000646, 上海海事大学海洋科学与工程学院环境工程系, SR000001</value>
+				<value>RINM000009,SRIN000647, 上海海洋大学海洋科学学院, SR000001</value>
+				<value>RINM000010,SRIN000647, 上海海洋大学水产与生命学院, SR000001</value>
+				<value>RINM000011,SRIN000647, 上海海洋大学食品学院, SR000001</value>
+				<value>RINM000012,SRIN000652, 上海理工大学医疗器械与食品学院, SR000001</value>
+				<value>RINM000013,SRIN000658, 上海师范大学生命与环境科学学院, SR000001</value>
+				<value>RINM000014,SRIN000747, 同济大学医学院, SR000001</value>
+				<value>RINM000015,SRIN000986, 中国科学院上海生命科学研究院生物化学与细胞生物学研究所, SR000001	</value>
+				<value>RINM000016,SRIN000649, 交通大学生科院遗传与发育科学系, SR000001</value>
+				<value>RINM000017,SRIN000649, 交通大学生科院微生物科学系, SR000001</value>
+				<value>RINM000018,SRIN000649, 交通大学生科院邓子新研究室, SR000001</value>
+				<value>RINM000019,SRIN000649, 交通大学生科院微生物海洋学实验室, SR000001</value>
+				<value>RINM000020,SRIN000649, 交通大学生科院上海交通大学Bio-X 中心, SR000001</value>
+				<value>RINM000021,SRIN000649, 交通大学生科院实验教学楼中心, SR000001</value>
+				<value>RINM000022,SRIN000649, 交通大学生科院生物信息学与生物统计学系, SR000001</value>
+				<value>RINM000023,SRIN000649, 交通大学生科院生物工程系, SR000001</value>
+				<value>RINM000024,SRIN000649, 交通大学生科院生物化学与分子生物系, SR000001</value>
+				<value>RINM000025,SRIN000649, 交通大学医学院基础医学院, SR000001</value>
+				<value>RINM000026,SRIN000649, 交通大学医学院药学, SR000001</value>
+				<value>RINM000027,SRIN000649, 交通大学医学院健康科学研究所, SR000001</value>
+				<value>RINM000028,SRIN000649, 交通大学药学院, SR000001</value>
+				<value>RINM000029,SRIN000649, 交通大学农学院植物科学系, SR000001</value>
+				<value>RINM000030,SRIN000649, 交通大学农学院动物科学系, SR000001</value>
+				<value>RINM000031,SRIN000649, 交通大学农学院园林科学与工程系, SR000001</value>
+				<value>RINM000032,SRIN000649, 交通大学农学院资源与环境系, SR000001</value>
+				<value>RINM000033,SRIN000649, 交通大学农学院食品科学与工程系, SR000001</value>
+				<value>RINM000034,SRIN001019, 中科院植物生理生态研究所-植物分子遗传国家重点实验室, SR000001</value>
+				<value>RINM000035,SRIN001189,国家蛋白质科学中心-上海, SR000001</value>
+				<value>RINM000036,SRIN001188,上海财经大学交叉科学研究院, SR000001</value>
+				<value>RINM000037,SRIN001090,第二军医大学, SR000001</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="research_institute_initor" class="com.skynet.bettbioadv2.initdata.AllStringInitOperator">
+		<property name="sql"
+			value="insert into bettbio_ad_v2.research_institute_resource_data(id,name,belongs_to,version) values(?, ?, ?, 1)" />
+		<property name="dataList">
+			<list>
+				<value>RIR000001, 科研院校和机构, BKB000001</value>
+			</list>
+		</property>
+	</bean>
+
+</beans>
+
+

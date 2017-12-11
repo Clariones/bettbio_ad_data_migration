@@ -42,10 +42,10 @@ public class DataMigration {
 	}
 
 	public static void main(String[] args) {
-		Map<String, String> envs = System.getenv();
-    	for(Entry<String, String> entry : envs.entrySet()){
-    		System.out.println(entry.getKey()+"="+ entry.getValue());
-    	}
+//		Map<String, String> envs = System.getenv();
+//    	for(Entry<String, String> entry : envs.entrySet()){
+//    		System.out.println(entry.getKey()+"="+ entry.getValue());
+//    	}
         System.out.println( "Starting POC http server....." );
         String configFileName = "config/spring_main.xml";
         if (args != null && args.length > 0){
