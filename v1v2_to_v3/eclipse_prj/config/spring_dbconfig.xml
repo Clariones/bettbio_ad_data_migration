@@ -115,11 +115,11 @@
 			<value><![CDATA[insert into bettbio_ad_v2.refrigerator_data(id,title,laboratory,
 			        refrigerator_manufacturer,refrigerator_model,refrigerator_serial_number,refrigerator_capacity,refrigerator_up_time,
 			        ad_machine_model,ad_machine_serial_number,ad_machine_up_time,rfid_reader_id,longitude,latitude,belongs_to,last_report_time,
-			        apk_version,last_password,current_password) 
+			        apk_version,last_password,current_password,version) 
 			    select id,title,laboratory,
 			           refrigerator_manufacturer,refrigerator_model,refrigerator_serial_number,refrigerator_capacity,refrigerator_up_time,
 			           ad_machine_model,ad_machine_serial_number,ad_machine_up_time,rfid_reader_id,longitude,latitude,belongs_to,last_report_time, 
-			           'unknown',NULL,NULL
+			           'unknown',NULL,NULL,version
 				from bettbio_ad.refrigerator_data]]>
 			</value>
 		</property>
